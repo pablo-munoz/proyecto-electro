@@ -31,11 +31,15 @@ class Particle {
         } else if (this.charge < 0) {
             this.color = 'blue';
         }
+
     }
 
     draw() {
         this.circle = new Path.Circle(new Point(this.x, this.y), this.radius);
         this.circle.fillColor = this.color;
+        this.circle.onMouseDrag = _.bind(function(event) {
+            this.circle.translate(event.delta);
+        }, this);
     }
 
     on(event, func) {
@@ -43,19 +47,12 @@ class Particle {
     }
 
     reactToElectricFieldDueTo(otherParticle) {
-        const distanceX = (this.circle.position.x - otherParticle.circle.position.x); // 1 pxl = 1cm
-        const distanceY = (this.circle.position.y - otherParticle.circle.position.y); // 1 pyl = 1cm
-        var forceX = 0,
-            forceY = 0;
-
-        if (distanceX != 0) {
-            forceX = PERMITIVITY * (Math.abs((this.charge * otherParticle.charge))
-                                    / Math.pow(distanceX, 2));
-        }
-        if (distanceY != 0) {
-            forceY = PERMITIVITY * (Math.abs((this.charge * otherParticle.charge))
-                                    / Math.pow(distanceY, 2));
-        }
+        const distanceX = (this.circle.position.x - otherParticle.circle.position.x);
+        const distanceY = (this.circle.position.y - otherParticle.circle.position.y);
+        const qq = Math.abs(this.charge * otherParticle.charge);
+        const auxiliarForce = PERMITIVITY * ( ( qq ) / ( distanceX * distanceX + distanceY * distanceY) );
+        const forceX = distanceX * auxiliarForce;
+        const forceY = distanceY * auxiliarForce;
 
         this.accelX = forceX / this.mass;
         this.accelY = forceY / this.mass;
@@ -63,21 +60,9 @@ class Particle {
         // Still need to come up with proper sign
         const sameChargeType = Math.sign(this.charge) == Math.sign(otherParticle.charge);
 
-        if (sameChargeType) {
-            // Repel each other
-            if (otherParticle.circle.position.x > this.circle.position.x) {
-                this.accelX *= -1;
-            }
-            if (otherParticle.circle.position.y > this.circle.position.y) {
-                this.accely *= -1;
-            }
-        } else {
-            if (otherParticle.circle.position.x < this.circle.position.x) {
-                this.accelX *= -1;
-            }
-            if (otherParticle.circle.position.y < this.circle.position.y) {
-                this.accely *= -1;
-            }
+        if (!sameChargeType) {
+            this.accelX *= -1;
+            this.accelY *= -1;
         }
     }
 
@@ -92,6 +77,12 @@ class Particle {
 
 class TwoPointChargeSystem {
     constructor() {
+        this.initialize();
+        this.running = false;
+    }
+
+    initialize() {
+        paper.project.activeLayer.removeChildren();
         this.frameMillis = 1000 / 60;
 
         this.p0 = new Particle({
@@ -112,11 +103,47 @@ class TwoPointChargeSystem {
             this.p0.advanceTime(this.frameMillis);
             this.p1.advanceTime(this.frameMillis);
         }, this), this.frameMillis);
+        this.disableInputs();
+        this.running = true;
+        this.renameStartResetButton();
     }
 
-    stop() {
+    reset() {
+        clearInterval(this.refreshIntervalId);
+        this.refreshIntervalId = undefined;
+        this.initialize();
+        this.running = false;
+        this.enableInputs();
+        this.renameStartResetButton();
     }
+
+    toggleStatus() {
+        if (!this.running) {
+            this.start();
+        } else {
+            this.reset();
+        }
+    }
+
+    disableInputs() {
+        $('input').attr('disabled', 'disabled');
+    }
+
+    enableInputs() {
+        $('input').attr('disabled', null);
+    }
+
+    renameStartResetButton() {
+        if (this.running) {
+            $('#start-reset-btn').text('Reset');
+        } else {
+            $('#start-reset-btn').text('Start');
+        }
+    }
+
 }
+
+var simulation = undefined;
 
 window.onload = function() {
     $('#canvas').width($('#canvas-container').width());
@@ -126,6 +153,5 @@ window.onload = function() {
 
     paper.setup('canvas');
 
-    var scenario = new TwoPointChargeSystem();
-    scenario.start();
+    simulation = new TwoPointChargeSystem();
 }

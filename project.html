@@ -26,16 +26,21 @@
                 <canvas id="canvas" width="970" height="920"></canvas>
             </div>
             <div class="col-md-4">
-                <form action="">
-                    <div class="form-group">
-                        <label for="">q1</label>
-                        <input class="from-control" name="" type="number" value=""/>
+                <div class="form-group">
+                    <button id="start-reset-btn" class="btn btn-primary" onClick="simulation.toggleStatus();">Start</button>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon">q1</span>
+                        <input class="form-control" name="q1" type="number" value=""/>
                     </div>
-                    <div class="form-group">
-                        <label for="">q2</label>
-                        <input class="from-control" name="" type="number" value=""/>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon">q2</span>
+                        <input class="form-control" name="q2" type="number" value=""/>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </body>
