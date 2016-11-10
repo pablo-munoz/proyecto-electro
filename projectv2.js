@@ -25,7 +25,8 @@ class Particle {
             charge: ELECTRON_CHARGE, // C
             mass: ELECTRON_MASS      // kg
         }));
-
+        this.forceX = 0;
+        this.forceY = 0;
         if (this.charge > 0) {
             this.color = 'red';
         } else if (this.charge < 0) {
@@ -40,6 +41,12 @@ class Particle {
         this.circle.onMouseDrag = _.bind(function(event) {
             this.circle.translate(event.delta);
         }, this);
+        this.forceVector = new Path.Line(new Point(this.x, this.y), new Point(this.x, this.y));
+        this.forceVector.strokeColor = 'black';
+        this.accelVector = new Path.Line(new Point(this.x, this.y), new Point(this.x, this.y));
+        this.accelVector.strokeColor = 'red';
+        this.velVector = new Path.Line(new Point(this.x, this.y), new Point(this.x, this.y));
+        this.velVector.strokeColor = 'green';
     }
 
     on(event, func) {
@@ -49,21 +56,15 @@ class Particle {
     reactToElectricFieldDueTo(otherParticle) {
         const distanceX = (this.circle.position.x - otherParticle.circle.position.x);
         const distanceY = (this.circle.position.y - otherParticle.circle.position.y);
-        const qq = Math.abs(this.charge * otherParticle.charge);
-        const auxiliarForce = PERMITIVITY * ( ( qq ) / ( distanceX * distanceX + distanceY * distanceY) );
-        const forceX = distanceX * auxiliarForce;
-        const forceY = distanceY * auxiliarForce;
-
-        this.accelX = forceX / this.mass;
-        this.accelY = forceY / this.mass;
-
-        // Still need to come up with proper sign
-        const sameChargeType = Math.sign(this.charge) == Math.sign(otherParticle.charge);
-
-        if (!sameChargeType) {
-            this.accelX *= -1;
-            this.accelY *= -1;
+        if(distanceX == 0 && distanceY == 0) {
+            return;
         }
+        const qq = (this.charge * otherParticle.charge);
+        const auxiliarForce = PERMITIVITY * ( ( qq ) / Math.pow(( distanceX * distanceX + distanceY * distanceY), 3/2) );
+        this.forceX = distanceX * auxiliarForce;
+        this.forceY = distanceY * auxiliarForce;
+        this.accelX = this.forceX / this.mass;
+        this.accelY = this.forceY / this.mass;
     }
 
     advanceTime(milliseconds) {
@@ -71,6 +72,9 @@ class Particle {
         this.velocityX += this.accelX * seconds;
         this.velocityY += this.accelY * seconds;
         this.circle.translate(new Point(this.velocityX, this.velocityY));
+        this.forceVector.segments = [new Point(this.circle.position.x, this.circle.position.y), new Point((this.circle.position.x + this.forceX), (this.circle.position.y + this.forceY))];
+        this.accelVector.segments = [new Point(this.circle.position.x, this.circle.position.y), new Point((this.circle.position.x + this.accelX), (this.circle.position.y + this.accelY))];
+        this.velVector.segments = [new Point(this.circle.position.x, this.circle.position.y), new Point((this.circle.position.x + this.velocityX), (this.circle.position.y + this.velocityY))];
     }
 
 }
@@ -83,25 +87,35 @@ class TwoPointChargeSystem {
 
     initialize() {
         paper.project.activeLayer.removeChildren();
-        this.frameMillis = 1000 / 60;
+        this.frameMillis = 1000/60;
 
         this.p0 = new Particle({
-            x: WINDOW_WIDTH / 2 - 30,
+            x: WINDOW_WIDTH / 2,
+            //y: WINDOW_HEIGHT / 2 - 30,
+            velocityX: 0,
+            velocityY: -1,
+            charge: ELECTRON_CHARGE*5,
+            mass: ELECTRON_MASS
         });
         this.p0.draw();
 
         this.p1 = new Particle({
             x: WINDOW_WIDTH / 2 + 30,
+            //y: WINDOW_HEIGHT / 2 + 30,
+            velocityX: 0,
+            velocityY: 0,
+            charge: PROTON_CHARGE*5,
+            mass: PROTON_MASS,
         });
         this.p1.draw();
     }
 
     start() {
         this.refreshIntervalId = setInterval(_.bind(function() {
-            this.p0.reactToElectricFieldDueTo(this.p1);
-            this.p1.reactToElectricFieldDueTo(this.p0);
             this.p0.advanceTime(this.frameMillis);
             this.p1.advanceTime(this.frameMillis);
+            this.p0.reactToElectricFieldDueTo(this.p1);
+            this.p1.reactToElectricFieldDueTo(this.p0);
         }, this), this.frameMillis);
         this.disableInputs();
         this.running = true;
