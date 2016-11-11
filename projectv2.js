@@ -87,6 +87,7 @@ class TwoPointChargeSystem {
 
     initialize() {
         paper.project.activeLayer.removeChildren();
+        this.particles = [];
         this.frameMillis = 1000/60;
 
         this.p0 = new Particle({
@@ -97,6 +98,7 @@ class TwoPointChargeSystem {
             charge: ELECTRON_CHARGE*5,
             mass: ELECTRON_MASS
         });
+        this.particles.push(this.p0);
         this.p0.draw();
 
         this.p1 = new Particle({
@@ -107,6 +109,7 @@ class TwoPointChargeSystem {
             charge: PROTON_CHARGE*5,
             mass: PROTON_MASS,
         });
+        this.particles.push(this.p1);
         this.p1.draw();
     }
 
@@ -159,6 +162,7 @@ class TwoPointChargeSystem {
 
 var simulation = undefined;
 
+
 window.onload = function() {
     $('#canvas').width($('#canvas-container').width());
 
@@ -168,4 +172,57 @@ window.onload = function() {
     paper.setup('canvas');
 
     simulation = new TwoPointChargeSystem();
+
+    var app = new Vue({
+        el: '#app',
+        data: {
+            simulation: simulation,
+        },
+        components: {
+            "particle-controls": {
+                props: ['index', 'particle'],
+                template: `
+<fieldset style="margin-top: 25">
+    <legend>Particle {{ index }}</legend>
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon">q</span>
+            <input class="form-control" type="number" v-model="particle.charge"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon">m</span>
+            <input class="form-control" type="number" v-model="particle.mass"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon">vx</span>
+            <input class="form-control" type="number" v-model="particle.velocityX"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon">ax</span>
+            <input class="form-control" type="number" v-model="particle.accelX"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon">vy</span>
+            <input class="form-control" type="number" v-model="particle.velocityY"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon">ay</span>
+            <input class="form-control" type="number" v-model="particle.accelY"/>
+        </div>
+    </div>
+</fieldset>
+`
+            }
+        }
+    });
 }
