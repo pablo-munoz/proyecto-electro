@@ -1,4 +1,3 @@
-//test
 paper.install(window);
 
 var WINDOW_WIDTH  = 970;
@@ -32,7 +31,7 @@ class Particle {
         } else if (this.charge < 0) {
             this.color = 'blue';
         }
-
+        this.draw();
     }
 
     draw() {
@@ -67,6 +66,29 @@ class Particle {
         this.accelY = this.forceY / this.mass;
     }
 
+    reactToElectricFieldDueTo2(otherParticles) {
+        var distanceX;
+        var distanceY;
+        var qq;
+        var auxiliarForce;
+        this.forceX = 0;
+        this.forceY = 0;
+        for(var i = 0; i < otherParticles.length; ++i){
+            distanceX = (this.circle.position.x - otherParticles[i].circle.position.x);
+            distanceY = (this.circle.position.y - otherParticles[i].circle.position.y);
+            if((Math.abs(distanceX) <= 0 && Math.abs(distanceY) <= 0) || this === otherParticles[i]){
+                //console.log("hi");
+                continue;
+            }
+            qq = (this.charge * otherParticles[i].charge);
+            auxiliarForce = PERMITIVITY * ( ( qq ) / Math.pow(( distanceX * distanceX + distanceY * distanceY), 3/2) );
+            this.forceX += distanceX * auxiliarForce;
+            this.forceY += distanceY * auxiliarForce;
+        }
+        this.accelX = this.forceX / this.mass;
+        this.accelY = this.forceY / this.mass;
+    }
+
     advanceTime(milliseconds) {
         const seconds = milliseconds / 1000;
         this.velocityX += this.accelX * seconds;
@@ -88,34 +110,64 @@ class TwoPointChargeSystem {
     initialize() {
         paper.project.activeLayer.removeChildren();
         this.frameMillis = 1000/60;
-
-        this.p0 = new Particle({
-            x: WINDOW_WIDTH / 2,
+        var p0 = new Particle({
+            x: WINDOW_WIDTH / 2 + 30,
             //y: WINDOW_HEIGHT / 2 - 30,
             velocityX: 0,
             velocityY: -1,
-            charge: ELECTRON_CHARGE*5,
+            charge: ELECTRON_CHARGE * 20    ,
             mass: ELECTRON_MASS
         });
-        this.p0.draw();
 
-        this.p1 = new Particle({
-            x: WINDOW_WIDTH / 2 + 30,
+        var p1 = new Particle({
+            x: WINDOW_WIDTH / 2,
             //y: WINDOW_HEIGHT / 2 + 30,
             velocityX: 0,
             velocityY: 0,
-            charge: PROTON_CHARGE*5,
+            charge: PROTON_CHARGE * 20  ,
             mass: PROTON_MASS,
         });
-        this.p1.draw();
+
+        var p2 = new Particle({
+            x: WINDOW_WIDTH / 2 - 30,
+            //y: WINDOW_HEIGHT / 2 + 30,
+            velocityX: 0,
+            velocityY: 1,
+            charge: ELECTRON_CHARGE * 20    ,
+            mass: ELECTRON_MASS,
+        });
+
+        var p3 = new Particle({
+            //x: WINDOW_WIDTH / 2 - 30,
+            y: WINDOW_HEIGHT / 2 + 30,
+            velocityX: 1,
+            velocityY: 0,
+            charge: ELECTRON_CHARGE * 20    ,
+            mass: ELECTRON_MASS,
+        });
+
+        var p4 = new Particle({
+            //x: WINDOW_WIDTH / 2 - 30,
+            y: WINDOW_HEIGHT / 2 - 30,
+            velocityX: -1,
+            velocityY: 0,
+            charge: ELECTRON_CHARGE * 20    ,
+            mass: ELECTRON_MASS,
+        });
+
+        this.particles = [
+            p0, p1,  p4
+        ];
     }
 
     start() {
         this.refreshIntervalId = setInterval(_.bind(function() {
-            this.p0.advanceTime(this.frameMillis);
-            this.p1.advanceTime(this.frameMillis);
-            this.p0.reactToElectricFieldDueTo(this.p1);
-            this.p1.reactToElectricFieldDueTo(this.p0);
+            for(var i = 0; i < this.particles.length; ++i){
+                this.particles[i].reactToElectricFieldDueTo2(this.particles);
+            }
+            for(var i = 0; i < this.particles.length; ++i){
+                this.particles[i].advanceTime(this.frameMillis);
+            }
         }, this), this.frameMillis);
         this.disableInputs();
         this.running = true;
