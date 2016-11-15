@@ -60,18 +60,23 @@ class Particle {
         }, this));
     }
 
-    reactToElectricFieldDueTo(otherParticle) {
-        const distanceX = (this.circle.position.x - otherParticle.circle.position.x) / PIXELS_PER_METER;
-        const distanceY = (this.circle.position.y - otherParticle.circle.position.y) / PIXELS_PER_METER;
-        if(distanceX == 0 && distanceY == 0) {
-            return;
-        }
-        const qq = (this.charge * otherParticle.charge);
-        const auxiliarForce = PERMITIVITY * ( ( qq ) / Math.pow(( distanceX * distanceX + distanceY * distanceY), 3/2) );
-        this.forceX = distanceX * auxiliarForce;
-        this.forceY = distanceY * auxiliarForce;
-        this.accelX = this.forceX / this.mass;
-        this.accelY = this.forceY / this.mass;
+    reactToElectricFieldDueTo(otherParticleList) {
+        console.log(otherParticleList);
+        this.forceX = this.forceY = this.accelX = this.accelY = 0;
+
+        _.forEach(otherParticleList, _.bind(function(otherParticle) {
+            const distanceX = (this.circle.position.x - otherParticle.circle.position.x) / PIXELS_PER_METER;
+            const distanceY = (this.circle.position.y - otherParticle.circle.position.y) / PIXELS_PER_METER;
+            if(distanceX == 0 && distanceY == 0) {
+                return;
+            }
+            const qq = (this.charge * otherParticle.charge);
+            const auxiliarForce = PERMITIVITY * ( ( qq ) / Math.pow(( distanceX * distanceX + distanceY * distanceY), 3/2) );
+            this.forceX += distanceX * auxiliarForce;
+            this.forceY += distanceY * auxiliarForce;
+            this.accelX += this.forceX / this.mass;
+            this.accelY += this.forceY / this.mass;
+        }, this));
     }
 
     advanceTime(milliseconds) {
@@ -104,7 +109,7 @@ class Particle {
 
 }
 
-class TwoPointChargeSystem {
+class ChargeSystem {
     constructor() {
         this.initialize();
         this.running = false;
@@ -117,39 +122,16 @@ class TwoPointChargeSystem {
         this.lastTime = undefined;
         this.secondsTotal = 0;
         this.secondsElapsed = 0;
-        this.lastAction = undefined;
 
         this.secondsLabel = new PointText(20, 20);
         this.secondsLabel.fontSize = 16;
         this.formatSecondsLabel();
-        this.p0 = new Particle({
-            x: WINDOW_WIDTH / 2,
-            velocityX: 0,
-            velocityY: -1,
-            charge: ELECTRON_CHARGE*5,
-            mass: ELECTRON_MASS
-        });
-        this.particles.push(this.p0);
-        this.p0.draw();
-
-        this.p1 = new Particle({
-            x: WINDOW_WIDTH / 2 + 30,
-            velocityX: 0,
-            velocityY: 0,
-            charge: PROTON_CHARGE*5,
-            mass: PROTON_MASS,
-        });
-        this.particles.push(this.p1);
-        this.p1.draw();
     }
 
     start() {
         this.lastTime = moment();
         this.refreshIntervalId = setInterval(_.bind(function() {
-            this.p0.advanceTime(this.frameMillis);
-            this.p1.advanceTime(this.frameMillis);
-            this.p0.reactToElectricFieldDueTo(this.p1);
-            this.p1.reactToElectricFieldDueTo(this.p0);
+            this.advance();
             this.secondsElapsed = this.secondsTotal + moment().diff(this.lastTime, 'seconds');
             this.formatSecondsLabel();
         }, this), this.frameMillis);
@@ -203,11 +185,82 @@ class TwoPointChargeSystem {
     formatSecondsLabel() {
         this.secondsLabel.content = "t = " + this.secondsElapsed + "s";
     }
-
 }
 
-var simulation = undefined;
+class TwoPointChargeSystem extends ChargeSystem {
+    initialize() {
+        super.initialize();
+        this.p0 = new Particle({
+            x: WINDOW_WIDTH / 2,
+            velocityX: 0,
+            velocityY: -1,
+            charge: ELECTRON_CHARGE*5,
+            mass: ELECTRON_MASS
+        });
+        this.particles.push(this.p0);
+        this.p0.draw();
 
+        this.p1 = new Particle({
+            x: WINDOW_WIDTH / 2 + 30,
+            velocityX: 0,
+            velocityY: 0,
+            charge: PROTON_CHARGE*5,
+            mass: PROTON_MASS,
+        });
+        this.particles.push(this.p1);
+        this.p1.draw();
+    }
+
+    advance() {
+        this.p0.reactToElectricFieldDueTo([this.p1]);
+        this.p1.reactToElectricFieldDueTo([this.p0]);
+        this.p0.advanceTime(this.frameMillis);
+        this.p1.advanceTime(this.frameMillis);
+    }
+}
+
+class ElectricDipoleSystem extends ChargeSystem {
+    initialize() {
+        // p1 and p1 are the "fixed" ones
+        super.initialize();
+        this.p0 = new Particle({
+            x: WINDOW_WIDTH / 2 + 50,
+            y: WINDOW_HEIGHT / 2,
+            charge: ELECTRON_CHARGE,
+            mass: ELECTRON_MASS
+        });
+        this.particles.push(this.p0);
+        this.p0.draw();
+
+        this.p1 = new Particle({
+            y: WINDOW_HEIGHT / 2 - 30,
+            charge: ELECTRON_CHARGE*5,
+            mass: ELECTRON_MASS
+        });
+        this.particles.push(this.p1);
+        this.p1.draw();
+
+        this.p2 = new Particle({
+            y: WINDOW_HEIGHT / 2 + 30,
+            charge: this.p1.charge,
+            mass: this.p1.mass,
+        });
+        this.particles.push(this.p2);
+        this.p2.draw();
+    }
+
+    advance() {
+        this.p0.reactToElectricFieldDueTo([this.p1, this.p2]);
+        this.p0.advanceTime(this.frameMillis);
+    }
+}
+
+SYSTEMS_MAP = {
+    twoChargeSystem: TwoPointChargeSystem,
+    electricDipole: ElectricDipoleSystem
+};
+
+var simulation = undefined;
 
 window.onload = function() {
     $('#canvas').width($('#canvas-container').width());
@@ -223,6 +276,11 @@ window.onload = function() {
         el: '#app',
         data: {
             simulation: simulation,
+            changeChargeSystem: function() {
+                var selectedSystem = $('#charge-system-selector').val();
+                simulation.reset();
+                app.simulation = simulation = new SYSTEMS_MAP[selectedSystem]();
+            }
         },
         components: {
             "particle-controls": {
