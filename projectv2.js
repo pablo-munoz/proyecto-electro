@@ -114,7 +114,14 @@ class TwoPointChargeSystem {
         paper.project.activeLayer.removeChildren();
         this.particles = [];
         this.frameMillis = 1000/60;
+        this.lastTime = undefined;
+        this.secondsTotal = 0;
+        this.secondsElapsed = 0;
+        this.lastAction = undefined;
 
+        this.secondsLabel = new PointText(20, 20);
+        this.secondsLabel.fontSize = 16;
+        this.formatSecondsLabel();
         this.p0 = new Particle({
             x: WINDOW_WIDTH / 2,
             velocityX: 0,
@@ -137,11 +144,14 @@ class TwoPointChargeSystem {
     }
 
     start() {
+        this.lastTime = moment();
         this.refreshIntervalId = setInterval(_.bind(function() {
             this.p0.advanceTime(this.frameMillis);
             this.p1.advanceTime(this.frameMillis);
             this.p0.reactToElectricFieldDueTo(this.p1);
             this.p1.reactToElectricFieldDueTo(this.p0);
+            this.secondsElapsed = this.secondsTotal + moment().diff(this.lastTime, 'seconds');
+            this.formatSecondsLabel();
         }, this), this.frameMillis);
         this.disableInputs();
         this.running = true;
@@ -152,9 +162,12 @@ class TwoPointChargeSystem {
         clearInterval(this.refreshIntervalId);
         this.running = false;
         this.renameStartStopButton();
+        this.secondsTotal = this.secondsElapsed;
     }
 
     reset() {
+        this.secondsElapsed = 0;
+        this.secondsTotal = 0;
         clearInterval(this.refreshIntervalId);
         this.refreshIntervalId = undefined;
         this.initialize();
@@ -185,6 +198,10 @@ class TwoPointChargeSystem {
         } else {
             $('#start-stop-btn').text('Start');
         }
+    }
+
+    formatSecondsLabel() {
+        this.secondsLabel.content = "t = " + this.secondsElapsed + "s";
     }
 
 }
