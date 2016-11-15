@@ -43,8 +43,13 @@ class Particle {
         this.velocityVector.strokeWidth = VECTOR_WIDTH;
         this.velocityVector.strokeColor = 'rgba(0, 255, 0, 0.5)';
         this.circle = new Path.Circle(new Point(this.x, this.y), this.radius);
-        this.circle.onMouseDrag = _.bind(function(event) {
+        this.label = new PointText(this.x - 2, this.y + 2);
+        this.label.strokeColor = 'white';
+        this.label.content = this.name;
+        this.label.fontSize = 8;
+        this.circle.onMouseDrag = this.label.onMouseDrag = _.bind(function(event) {
             this.circle.translate(event.delta);
+            this.label.translate(event.delta);
             this.drawAllVectors();
         }, this);
         this.setParticleColor();
@@ -83,7 +88,9 @@ class Particle {
         const seconds = milliseconds / 1000;
         this.velocityX += this.accelX * seconds;
         this.velocityY += this.accelY * seconds;
-        this.circle.translate(new Point(this.velocityX * PIXELS_PER_METER, this.velocityY * PIXELS_PER_METER));
+        var translatePoint = new Point(this.velocityX * PIXELS_PER_METER, this.velocityY * PIXELS_PER_METER);
+        this.circle.translate(translatePoint);
+        this.label.translate(translatePoint);
         this.drawAllVectors();
     }
 
@@ -195,7 +202,8 @@ class TwoPointChargeSystem extends ChargeSystem {
             velocityX: 0,
             velocityY: -1,
             charge: ELECTRON_CHARGE*5,
-            mass: ELECTRON_MASS
+            mass: ELECTRON_MASS,
+            name: '0'
         });
         this.particles.push(this.p0);
         this.p0.draw();
@@ -206,6 +214,7 @@ class TwoPointChargeSystem extends ChargeSystem {
             velocityY: 0,
             charge: PROTON_CHARGE*5,
             mass: PROTON_MASS,
+            name: '1'
         });
         this.particles.push(this.p1);
         this.p1.draw();
@@ -227,7 +236,8 @@ class ElectricDipoleSystem extends ChargeSystem {
             x: WINDOW_WIDTH / 2 + 50,
             y: WINDOW_HEIGHT / 2,
             charge: ELECTRON_CHARGE,
-            mass: ELECTRON_MASS
+            mass: ELECTRON_MASS,
+            name: '0'
         });
         this.particles.push(this.p0);
         this.p0.draw();
@@ -235,7 +245,8 @@ class ElectricDipoleSystem extends ChargeSystem {
         this.p1 = new Particle({
             y: WINDOW_HEIGHT / 2 - 30,
             charge: ELECTRON_CHARGE*5,
-            mass: ELECTRON_MASS
+            mass: ELECTRON_MASS,
+            name: '1'
         });
         this.particles.push(this.p1);
         this.p1.draw();
@@ -244,6 +255,7 @@ class ElectricDipoleSystem extends ChargeSystem {
             y: WINDOW_HEIGHT / 2 + 30,
             charge: this.p1.charge,
             mass: this.p1.mass,
+            name: '2'
         });
         this.particles.push(this.p2);
         this.p2.draw();
