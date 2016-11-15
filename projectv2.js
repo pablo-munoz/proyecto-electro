@@ -41,11 +41,9 @@ class Particle {
         this.circle = new Path.Circle(new Point(this.x / SCALE + WINDOW_WIDTH/2, -this.y / SCALE + WINDOW_HEIGHT/2), this.radius);
         this.circle.fillColor = this.color;
         this.circle.onMouseDrag = _.bind(function(event) {
-            console.log(this.x + ", " + this.y);
             this.circle.translate(event.delta);
             this.x = (this.circle.position.x - WINDOW_WIDTH/2) * SCALE;
             this.y = -(this.circle.position.y - WINDOW_HEIGHT/2) * SCALE;
-            console.log(this.x + ", " + this.y);
         }, this);
         this.forceVector = new Path.Line(new Point(this.x, this.y), new Point(this.x, this.y));
         this.forceVector.strokeColor = 'black';
@@ -60,21 +58,7 @@ class Particle {
     on(event, func) {
         this.circle['on' + _.capitalize(event)] = func;
     }
-/*
-    reactToElectricFieldDueTo(otherParticle) {
-        const distanceX = (this.x - otherParticle.x);
-        const distanceY = (this.y - otherParticle.y);
-        if(distanceX == 0 && distanceY == 0) {
-            return;
-        }
-        const qq = (this.charge * otherParticle.charge);
-        const auxiliarForce = PERMITIVITY * ( ( qq ) / Math.pow(( distanceX * distanceX + distanceY * distanceY), 5/2) );
-        this.forceX = distanceX * auxiliarForce;
-        this.forceY = distanceY * auxiliarForce;
-        this.accelX = this.forceX / this.mass;
-        this.accelY = this.forceY / this.mass;
-    }
-*/
+
     reactToElectricFieldDueTo2(otherParticles) {
         var distanceX;
         var distanceY;
@@ -85,16 +69,16 @@ class Particle {
         for(var i = 0; i < otherParticles.length; ++i){
             distanceX = (this.x - otherParticles[i].x);
             distanceY = (this.y - otherParticles[i].y);
-            if((Math.abs(distanceX) <= 0 && Math.abs(distanceY) <= 0) || this === otherParticles[i]){
+            if(distanceX == 0 && distanceY == 0 || this === otherParticles[i]){
                 continue;
             }
             qq = (this.charge * otherParticles[i].charge);
-            auxiliarForce = PERMITIVITY * ( ( qq ) / Math.pow(( distanceX * distanceX + distanceY * distanceY ), 5/2) );
+            auxiliarForce = PERMITIVITY * ( ( qq ) / Math.pow(( distanceX * distanceX + distanceY * distanceY ), 3/2) );
             this.forceX += distanceX * auxiliarForce;
-            this.forceY += -distanceY * auxiliarForce;
+            this.forceY += distanceY * auxiliarForce;
         }
         this.accelX = this.forceX / this.mass;
-        this.accelY = this.forceY / this.mass; 
+        this.accelY = this.forceY / this.mass;
     }
 
     advanceTime(milliseconds) {
@@ -103,17 +87,17 @@ class Particle {
         this.velocityY += this.accelY * seconds;
         this.x += this.velocityX * seconds;
         this.y += this.velocityY * seconds;
-        this.circle.translate(new Point((this.velocityX * seconds) / SCALE, (this.velocityY * seconds) / SCALE));
-        this.forceVector.segments = [new Point(this.circle.position.x, this.circle.position.y), new Point((this.circle.position.x + this.forceX / SCALE), (this.circle.position.y + this.forceY / SCALE))];
-        this.accelVector.segments = [new Point(this.circle.position.x, this.circle.position.y), new Point((this.circle.position.x + this.accelX / SCALE), (this.circle.position.y + this.accelY / SCALE))];
-        this.velVector.segments = [new Point(this.circle.position.x, this.circle.position.y), new Point((this.circle.position.x + this.velocityX / SCALE), (this.circle.position.y + this.velocityY / SCALE))];
-        this.fieldVector.segments = [new Point(this.circle.position.x, this.circle.position.y), new Point((this.circle.position.x + (this.forceX / this.charge) / SCALE), (this.circle.position.y + (this.forceY / this.charge) / SCALE))];
-        if(this.circle.position.x < 0 || this.circle.position.x > WINDOW_HEIGHT){
+        this.circle.translate(new Point((this.velocityX * seconds) / SCALE, -(this.velocityY * seconds) / SCALE));
+        this.forceVector.segments = [new Point(this.circle.position.x, this.circle.position.y), new Point((this.circle.position.x + this.forceX / SCALE), (this.circle.position.y - this.forceY / SCALE))];
+        this.accelVector.segments = [new Point(this.circle.position.x, this.circle.position.y), new Point((this.circle.position.x + this.accelX / SCALE), (this.circle.position.y - this.accelY / SCALE))];
+        this.velVector.segments = [new Point(this.circle.position.x, this.circle.position.y), new Point((this.circle.position.x + this.velocityX / SCALE), (this.circle.position.y - this.velocityY / SCALE))];
+        this.fieldVector.segments = [new Point(this.circle.position.x, this.circle.position.y), new Point((this.circle.position.x + (this.forceX / this.charge) / SCALE), (this.circle.position.y - (this.forceY / this.charge) / SCALE))];
+        /*if(this.circle.position.x < 0 || this.circle.position.x > WINDOW_HEIGHT){
             this.velocityX *= -1;
         }
         if(this.circle.position.y < 0 || this.circle.position.y > WINDOW_HEIGHT){
             this.velocityY *= -1;
-        }
+        }*/
     }
 
 }
@@ -128,52 +112,52 @@ class TwoPointChargeSystem {
         paper.project.activeLayer.removeChildren();
         this.frameMillis = 1000/1000;
         var p0 = new Particle({
-            x: 1,
+            x: 0,
             y: 1,
             velocityX: 0,
-            //velocityY: 16.1,
+            velocityY: 0,
             charge: ELECTRON_CHARGE,
             mass: ELECTRON_MASS
         });
 
         var p1 = new Particle({
             x: 0,
+            y: -1,
+            velocityX: 0,
+            velocityY: 0,
+            //charge: PROTON_CHARGE,
+            //mass: PROTON_MASS,
+        });
+
+        var p2 = new Particle({
+            x: 1,
             y: 0,
             velocityX: 0,
             velocityY: 0,
-            charge: PROTON_CHARGE,
-            //mass: PROTON_MASS,
-        });
-/*
-        var p2 = new Particle({
-            x: -1,
-            y: 0,
-            velocityX: 0,
-            velocityY: -15.99999,
             charge: ELECTRON_CHARGE,
             mass: ELECTRON_MASS,
         });
 /*
         var p3 = new Particle({
-            //x: 0,
-            y: 0,
-            velocityX: 0,
+            x: 0,
+            y: -1,
+            velocityX: 3,
             velocityY: 0,
-            charge: ELECTRON_CHARGE * 75,
+            charge: ELECTRON_CHARGE,
             mass: ELECTRON_MASS,
         });
-/*
+
         var p4 = new Particle({
-            //x: 0,
-            y: 0,
-            velocityX: 0,
+            x: 0,
+            y: 1,
+            velocityX: -3,
             velocityY: 0,
-            charge: ELECTRON_CHARGE * 75,
+            charge: ELECTRON_CHARGE,
             mass: ELECTRON_MASS,
         });
 */
         this.particles = [
-            p0, p1//, p2//, p3, p4
+            p0, p1, p2//, p3, p4
         ];
     }
 
