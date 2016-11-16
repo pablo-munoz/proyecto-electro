@@ -34,6 +34,7 @@ class Particle {
         }));
         this.forceX = 0;
         this.forceY = 0;
+        this.potentialEnergy = 0;
     }
 
     draw() {
@@ -46,8 +47,8 @@ class Particle {
         this.velocityVector = new Path.Line(new Point(this.x, this.y), new Point(this.x, this.y));
         this.velocityVector.strokeWidth = VECTOR_WIDTH;
         this.velocityVector.strokeColor = 'rgba(0, 255, 0, 0.5)';
-        this.circle = new Path.Circle(new Point(this.x * PIXELS_PER_METER + WINDOW_WIDTH/2, this.y * PIXELS_PER_METER + WINDOW_HEIGHT/2), this.radius);
-        this.label = new PointText(this.x * PIXELS_PER_METER + WINDOW_WIDTH/2 - 2, this.y * PIXELS_PER_METER + WINDOW_HEIGHT/2 + 2);
+        this.circle = new Path.Circle(new Point(this.x * PIXELS_PER_METER + WINDOW_WIDTH/2, -this.y * PIXELS_PER_METER + WINDOW_HEIGHT/2), this.radius);
+        this.label = new PointText(this.x * PIXELS_PER_METER + WINDOW_WIDTH/2 - 2, -this.y * PIXELS_PER_METER + WINDOW_HEIGHT/2 + 2);
         this.label.strokeColor = 'white';
         this.label.content = this.name;
         this.label.fontSize = 8;
@@ -72,22 +73,22 @@ class Particle {
     }
 
     reactToElectricFieldDueTo(otherParticleList) {
-        this.forceX = this.forceY = this.accelX = this.accelY = 0;
+        this.forceX = this.forceY = this.accelX = this.accelY = this.potentialEnergy = 0;
 
         _.forEach(otherParticleList, _.bind(function(otherParticle) {
             const distanceX = (this.x - otherParticle.x);
             const distanceY = (this.y - otherParticle.y);
-            if(distanceX == 0 && distanceY == 0) {
+            if((distanceX == 0 && distanceY == 0) || this === otherParticle) {
                 return;
             }
             const qq = (this.charge * otherParticle.charge);
             const auxiliarForce = PERMITIVITY * ( ( qq ) / Math.pow(( distanceX * distanceX + distanceY * distanceY), 3/2) );
+            this.potentialEnergy += auxiliarForce * ( distanceX * distanceX + distanceY * distanceY);
             this.forceX += distanceX * auxiliarForce;
             this.forceY += distanceY * auxiliarForce;
         }, this));
-
-        this.accelX += this.forceX / this.mass;
-        this.accelY += this.forceY / this.mass;
+        this.accelX = this.forceX / this.mass;
+        this.accelY = this.forceY / this.mass;
     }
 
     advanceTime(milliseconds) {
@@ -316,6 +317,10 @@ class ThreePointChargeSystem extends ChargeSystem {
         });
         this.particles.push(this.p2);
         this.p2.draw();
+
+        _.forEach(this.particles, _.bind(function(particle) {
+            particle.reactToElectricFieldDueTo(this.particles);
+        }, this));
     }
 
     advance() {
