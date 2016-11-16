@@ -15,6 +15,9 @@ var PIXELS_PER_METER = 100;
 
 const VECTOR_WIDTH = 2;
 
+var simulation = undefined;
+var app = undefined;
+
 class Particle {
     // x, y, radius
     constructor(args) {
@@ -93,7 +96,6 @@ class Particle {
         this.velocityY += this.accelY * seconds;
         this.x += this.velocityX * seconds;
         this.y += this.velocityY * seconds;
-        console.log(PIXELS_PER_METER);
         var translatePoint = new Point(this.velocityX * seconds * PIXELS_PER_METER, -1 * this.velocityY * seconds * PIXELS_PER_METER);
         this.circle.translate(translatePoint);
         this.label.translate(translatePoint);
@@ -159,6 +161,8 @@ class ChargeSystem {
     }
 
     reset() {
+        PIXELS_PER_METER = 100;
+        app.$set(app, 'pixelsPerMeter', 100);
         this.secondsElapsed = 0;
         this.secondsTotal = 0;
         clearInterval(this.refreshIntervalId);
@@ -330,8 +334,6 @@ SYSTEMS_MAP = {
     threeChargeSystem: ThreePointChargeSystem
 };
 
-var simulation = undefined;
-var app = undefined;
 
 window.onload = function() {
     $('#canvas').width($('#canvas-container').width());
@@ -351,7 +353,6 @@ window.onload = function() {
                 var newValue = $('input.ppm').val();
                 PIXELS_PER_METER = newValue;
                 app.pixelsPerMeter = newValue;
-                simulation.reset();
             },
             simulation: simulation,
             changeChargeSystem: function() {
