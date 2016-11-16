@@ -11,7 +11,8 @@ const PROTON_MASS     = 1.6727 * Math.pow(10, -27);
 const NEUTRON_MASS    = 1.6750 * Math.pow(10, -27);
 const ELECTRON_MASS   =  9.110 * Math.pow(10, -31);
 
-const PIXELS_PER_METER = 100;
+var PIXELS_PER_METER = 100;
+
 const VECTOR_WIDTH = 2;
 
 class Particle {
@@ -68,7 +69,6 @@ class Particle {
     }
 
     reactToElectricFieldDueTo(otherParticleList) {
-        //console.log(otherParticleList);
         this.forceX = this.forceY = this.accelX = this.accelY = 0;
 
         _.forEach(otherParticleList, _.bind(function(otherParticle) {
@@ -93,6 +93,7 @@ class Particle {
         this.velocityY += this.accelY * seconds;
         this.x += this.velocityX * seconds;
         this.y += this.velocityY * seconds;
+        console.log(PIXELS_PER_METER);
         var translatePoint = new Point(this.velocityX * seconds * PIXELS_PER_METER, -1 * this.velocityY * seconds * PIXELS_PER_METER);
         this.circle.translate(translatePoint);
         this.label.translate(translatePoint);
@@ -130,7 +131,7 @@ class ChargeSystem {
     initialize() {
         paper.project.activeLayer.removeChildren();
         this.particles = [];
-        this.frameMillis = 1000/1000;
+        this.frameMillis = 1000/60;
         this.lastTime = undefined;
         this.secondsTotal = 0;
         this.secondsElapsed = 0;
@@ -141,11 +142,10 @@ class ChargeSystem {
     }
 
     start() {
-        this.lastTime = moment();
         this.refreshIntervalId = setInterval(_.bind(function() {
             this.advance();
-            this.secondsElapsed = this.secondsTotal + moment().diff(this.lastTime, 'seconds');
             this.formatSecondsLabel();
+            this.secondsElapsed += this.frameMillis / 1000;
         }, this), 1000/60/*this.frameMillis*/);
         this.disableInputs();
         this.running = true;
@@ -156,7 +156,6 @@ class ChargeSystem {
         clearInterval(this.refreshIntervalId);
         this.running = false;
         this.renameStartStopButton();
-        this.secondsTotal = this.secondsElapsed;
     }
 
     reset() {
@@ -332,6 +331,7 @@ SYSTEMS_MAP = {
 };
 
 var simulation = undefined;
+var app = undefined;
 
 window.onload = function() {
     $('#canvas').width($('#canvas-container').width());
@@ -343,9 +343,16 @@ window.onload = function() {
 
     simulation = new TwoPointChargeSystem();
 
-    var app = new Vue({
+    app = new Vue({
         el: '#app',
         data: {
+            pixelsPerMeter: PIXELS_PER_METER,
+            updatePixelsPerMeter: function(event) {
+                var newValue = $('input.ppm').val();
+                PIXELS_PER_METER = newValue;
+                app.pixelsPerMeter = newValue;
+                simulation.reset();
+            },
             simulation: simulation,
             changeChargeSystem: function() {
                 var selectedSystem = $('#charge-system-selector').val();
