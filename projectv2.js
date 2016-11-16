@@ -233,6 +233,11 @@ class TwoPointChargeSystem extends ChargeSystem {
         });
         this.particles.push(this.p1);
         this.p1.draw();
+
+        _.forEach(this.particles, _.bind(function(particle) {
+            particle.reactToElectricFieldDueTo(this.particles);
+        }, this));
+
     }
 
     advance() {
@@ -243,6 +248,7 @@ class TwoPointChargeSystem extends ChargeSystem {
             particle.advanceTime(this.frameMillis);
         }, this));
     }
+
 }
 
 class ElectricDipoleSystem extends ChargeSystem {
@@ -276,10 +282,16 @@ class ElectricDipoleSystem extends ChargeSystem {
         });
         this.particles.push(this.p2);
         this.p2.draw();
+
+        _.forEach(this.particles, _.bind(function(particle) {
+            particle.reactToElectricFieldDueTo(this.particles);
+        }, this));
     }
 
     advance() {
         this.p0.reactToElectricFieldDueTo(this.particles);
+        this.p1.reactToElectricFieldDueTo(this.particles);
+        this.p2.reactToElectricFieldDueTo(this.particles);
         this.p0.advanceTime(this.frameMillis);
     }
 }
