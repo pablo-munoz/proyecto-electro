@@ -3,6 +3,8 @@
 #+LaTeX_HEADER: \usepackage[utf8]{inputenc}
 #+LaTeX_HEADER: \usepackage[spanish, es-noshorthands, es-tabla]{babel}
 #+LaTeX_HEADER: \usepackage{minted}
+#+LaTeX_HEADER: \usepackage{amsmath}
+#+LaTeX_HEADER: \usepackage{amssymb}
 #+LaTeX_HEADER: \usepackage{etoolbox}
 #+LaTeX_HEADER: \usepackage{xinttools}
 #+LaTeX_HEADER: \usepackage{graphicx}
@@ -61,7 +63,7 @@ El sistema de control de versiones Git será utilizado mediante el
 portal Github. El repositorio con la rama maestra del código puede ser
 encontrado en la liga https://github.com/pablo-munoz/proyecto-electro.
 
-* Identificación nde entidades
+* Identificación de entidades
 El sistema contará con entidades que representarán a las
 partículas. Cada instancia de estas entidades mantendrá la información
 necesaria sobre su estado así como las operaciones que permitirán
@@ -90,6 +92,49 @@ estarán encargadas de orquestrar la interacción entre estas.
 El programa puede ser accesado a través de la liga:
 
 https://pablo-munoz.github.io/proyecto-electro/index.html
+
+* Física
+** Ley de Coulomb
+La ley de Coulomb define como es que cargas puntuales interactúan
+entre sí. Esto incluye cuando las cargas se atraen o repelen. En este
+proyecto la fuerza elécctrica es calculada utilizando la ecuación de
+esta ley.
+
+Debido a que la representación interna de las partículas guarda la
+coordenada $x$ y $y$, el cálculo interno de las fuerzas también se
+desglosa en components $x$ y $y$.
+
+#+BEGIN_LaTeX
+  \begin{align*}
+    F_x = \cos ( \theta ) \frac{1}{4 \pi \epsilon_0} \frac{\vert q_1 q_2 \vert}{r^2} =
+    \frac{x}{\sqrt{x^2 + y^2}} \frac{1}{4 \pi \epsilon_0} \frac{\vert q_1 q_2 \vert}{ (\sqrt{x^2 + y^2 })^2 } =
+    \frac{x \vert q_1 q_2 \vert }{4 \pi \epsilon_0 (x^2 + y^2)^{\frac{3}{2}}} \\
+    F_y = \sin ( \theta ) \frac{1}{4 \pi \epsilon_0} \frac{\vert q_1 q_2 \vert}{r^2} =
+    \frac{y}{\sqrt{x^2 + y^2}} \frac{1}{4 \pi \epsilon_0} \frac{\vert q_1 q_2 \vert}{ (\sqrt{x^2 + y^2 })^2 } =
+    \frac{y \vert q_1 q_2 \vert }{4 \pi \epsilon_0 (x^2 + y^2)^{\frac{3}{2}}}
+  \end{align*}
+#+END_LaTeX
+
+** Dipolo Eléctrico
+Un dipolo eléctrico es un Sistema formado por dos cargas separadas por
+una distancia. Las magnitudes de las cargas deben ser iguales y los
+signos opuestos.
+
+Modificando los valores desde la interfaz gráfica, es posible crear un
+dipolo y observar los valores de las distintas magnitudes para cada
+una de las cargas individuales. 
+
+Si se comienza la simulación, se puede observar una representación
+aproximada de su comportamiento.
+
+** Energía potencial eléctrica
+Para cada partícula, se puede obtener una energía potencial con
+respecto del resto de las partículas. Cada una de las partículas del
+sistema calculara su energía potencial de manera individual. 
+
+Para calcular se utiliza la formula sin modificaciones ya que esta no
+cuenta con componentes x o y, es solo una magnitud.
+
 
 * Código Fuente
 ** =HTML=

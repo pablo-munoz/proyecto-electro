@@ -122,7 +122,7 @@ class Particle {
     }
 
     getOffsetByMeters(offsetPointMeters) {
-        return this.getOffset(offsetPointMeters.multiply(PIXELS_PER_METER));
+        return this.getOffset(offsetPointMeters.divide(PIXELS_PER_METER));
     }
 
 }
