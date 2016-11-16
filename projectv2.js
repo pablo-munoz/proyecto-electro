@@ -135,8 +135,6 @@ class ChargeSystem {
         paper.project.activeLayer.removeChildren();
         this.particles = [];
         this.frameMillis = 1000/60;
-        this.lastTime = undefined;
-        this.secondsTotal = 0;
         this.secondsElapsed = 0;
 
         this.secondsLabel = new PointText(20, 20);
@@ -165,7 +163,6 @@ class ChargeSystem {
         PIXELS_PER_METER = 100;
         app.$set(app, 'pixelsPerMeter', 100);
         this.secondsElapsed = 0;
-        this.secondsTotal = 0;
         clearInterval(this.refreshIntervalId);
         this.refreshIntervalId = undefined;
         this.initialize();
