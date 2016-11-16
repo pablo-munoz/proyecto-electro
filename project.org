@@ -61,7 +61,7 @@ El sistema de control de versiones Git será utilizado mediante el
 portal Github. El repositorio con la rama maestra del código puede ser
 encontrado en la liga https://github.com/pablo-munoz/proyecto-electro.
 
-* Identificación de entidades
+* Identificación nde entidades
 El sistema contará con entidades que representarán a las
 partículas. Cada instancia de estas entidades mantendrá la información
 necesaria sobre su estado así como las operaciones que permitirán
@@ -85,6 +85,11 @@ estarán encargadas de orquestrar la interacción entre estas.
 \end{landscape}
 \restoregeometry % Restore the global document page margins
 #+END_LaTeX
+
+* Página web
+El programa puede ser accesado a través de la liga:
+
+https://pablo-munoz.github.io/proyecto-electro/index.html
 
 * Código Fuente
 ** =HTML=

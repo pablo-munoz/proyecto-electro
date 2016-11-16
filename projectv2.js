@@ -30,7 +30,8 @@ class Particle {
             accelX: 0,               // m/s
             accelY: 0,               // m/s
             charge: ELECTRON_CHARGE, // C
-            mass: ELECTRON_MASS      // kg
+            mass: ELECTRON_MASS,     // kg
+            force: 0
         }));
         this.forceX = 0;
         this.forceY = 0;
@@ -89,6 +90,7 @@ class Particle {
         }, this));
         this.accelX = this.forceX / this.mass;
         this.accelY = this.forceY / this.mass;
+        this.force = Math.sqrt(Math.pow(this.forceX, 2) + Math.pow(this.forceY, 2));
     }
 
     advanceTime(milliseconds) {
@@ -423,6 +425,20 @@ window.onload = function() {
                 <span class="input-group-addon">ay =</span>
                 <input class="form-control" type="number" v-model="particle.accelY"/>
                 <span class="input-group-addon">m/s^2</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon">Force =</span>
+                <input class="form-control" type="number" v-model="particle.force"/>
+                <span class="input-group-addon">N</span>
+            </div>
+        </div>
+         <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon">Potential Energy =</span>
+                <input class="form-control" type="number" v-model="particle.potentialEnergy"/>
+                <span class="input-group-addon">J</span>
             </div>
         </div>
     </div>
