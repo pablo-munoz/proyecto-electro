@@ -201,6 +201,13 @@ class ChargeSystem {
     formatSecondsLabel() {
         this.secondsLabel.content = "t = " + this.secondsElapsed + "s";
     }
+
+    fixParticles(){
+        _.forEach(this.particles, _.bind(function(particle) {
+            particle.x = (particle.circle.position.x - WINDOW_WIDTH/2) / PIXELS_PER_METER;
+            particle.y = -(particle.circle.position.y - WINDOW_HEIGHT/2) / PIXELS_PER_METER;
+        }, this));
+    }
 }
 
 class TwoPointChargeSystem extends ChargeSystem {
@@ -273,12 +280,8 @@ class ElectricDipoleSystem extends ChargeSystem {
     }
 
     advance() {
-        _.forEach(this.particles, _.bind(function(particle) {
-            particle.reactToElectricFieldDueTo(this.particles);
-        }, this));
-        _.forEach(this.particles, _.bind(function(particle) {
-            particle.advanceTime(this.frameMillis);
-        }, this));
+        this.p0.reactToElectricFieldDueTo(this.particles);
+        this.p0.advanceTime(this.frameMillis);
     }
 }
 
@@ -358,6 +361,7 @@ window.onload = function() {
                 var newValue = $('input.ppm').val();
                 PIXELS_PER_METER = newValue;
                 app.pixelsPerMeter = newValue;
+                simulation.fixParticles();
             },
             simulation: simulation,
             changeChargeSystem: function() {
