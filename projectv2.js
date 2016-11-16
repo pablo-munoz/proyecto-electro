@@ -64,7 +64,7 @@ class Particle {
     }
 
     drawVector(whichVector) {
-        this[whichVector + 'Vector'].segments = [this.getPosition(), this.getOffsetByMeters(new Point(this[whichVector + 'X'] * PIXELS_PER_METER, -this[whichVector + 'Y'] * PIXELS_PER_METER))];
+        this[whichVector + 'Vector'].segments = [this.getPosition(), this.getOffset(new Point(this[whichVector + 'X'] * PIXELS_PER_METER, -this[whichVector + 'Y'] * PIXELS_PER_METER))];
     }
 
     drawAllVectors() {
@@ -122,7 +122,7 @@ class Particle {
     }
 
     getOffsetByMeters(offsetPointMeters) {
-        return this.getOffset(offsetPointMeters.divide(PIXELS_PER_METER));
+        return this.getOffset(offsetPointMeters.multiply(PIXELS_PER_METER));
     }
 
 }
