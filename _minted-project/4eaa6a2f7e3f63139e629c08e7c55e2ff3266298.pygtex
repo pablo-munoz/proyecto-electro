@@ -1,0 +1,94 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYGemacs{n}{window}\PYGemacs{o}{.}\PYGemacs{n+na}{onload} \PYGemacs{o}{=} \PYGemacs{n}{function}\PYGemacs{o}{()} \PYGemacs{o}{\PYGemacsZob{}}
+    \PYGemacs{n}{\PYGemacsZdl{}}\PYGemacs{o}{(}\PYGemacs{err}{\PYGemacsZsq{}\PYGemacsZsh{}}\PYGemacs{n}{canvas}\PYGemacs{err}{\PYGemacsZsq{}}\PYGemacs{o}{).}\PYGemacs{n+na}{width}\PYGemacs{o}{(}\PYGemacs{n}{\PYGemacsZdl{}}\PYGemacs{o}{(}\PYGemacs{err}{\PYGemacsZsq{}\PYGemacsZsh{}}\PYGemacs{n}{canvas}\PYGemacs{o}{\PYGemacsZhy{}}\PYGemacs{n}{container}\PYGemacs{err}{\PYGemacsZsq{}}\PYGemacs{o}{).}\PYGemacs{n+na}{width}\PYGemacs{o}{());}
+
+    \PYGemacs{n}{WINDOW\PYGemacsZus{}WIDTH}  \PYGemacs{o}{=} \PYGemacs{n}{\PYGemacsZdl{}}\PYGemacs{o}{(}\PYGemacs{err}{\PYGemacsZsq{}\PYGemacsZsh{}}\PYGemacs{n}{canvas}\PYGemacs{o}{\PYGemacsZhy{}}\PYGemacs{n}{container}\PYGemacs{err}{\PYGemacsZsq{}}\PYGemacs{o}{).}\PYGemacs{n+na}{width}\PYGemacs{o}{();}
+    \PYGemacs{n}{WINDOW\PYGemacsZus{}HEIGHT} \PYGemacs{o}{=} \PYGemacs{n}{\PYGemacsZdl{}}\PYGemacs{o}{(}\PYGemacs{err}{\PYGemacsZsq{}\PYGemacsZsh{}}\PYGemacs{n}{canvas}\PYGemacs{o}{\PYGemacsZhy{}}\PYGemacs{n}{container}\PYGemacs{err}{\PYGemacsZsq{}}\PYGemacs{o}{).}\PYGemacs{n+na}{height}\PYGemacs{o}{();}
+
+    \PYGemacs{n}{paper}\PYGemacs{o}{.}\PYGemacs{n+na}{setup}\PYGemacs{o}{(}\PYGemacs{err}{\PYGemacsZsq{}}\PYGemacs{n}{canvas}\PYGemacs{err}{\PYGemacsZsq{}}\PYGemacs{o}{);}
+
+    \PYGemacs{n}{simulation} \PYGemacs{o}{=} \PYGemacs{k}{new} \PYGemacs{n}{TwoPointChargeSystem}\PYGemacs{o}{();}
+
+    \PYGemacs{n}{app} \PYGemacs{o}{=} \PYGemacs{k}{new} \PYGemacs{n}{Vue}\PYGemacs{o}{(\PYGemacsZob{}}
+        \PYGemacs{n}{el}\PYGemacs{o}{:} \PYGemacs{err}{\PYGemacsZsq{}\PYGemacsZsh{}}\PYGemacs{n}{app}\PYGemacs{err}{\PYGemacsZsq{}}\PYGemacs{o}{,}
+        \PYGemacs{n}{data}\PYGemacs{o}{:} \PYGemacs{o}{\PYGemacsZob{}}
+            \PYGemacs{n}{pixelsPerMeter}\PYGemacs{o}{:} \PYGemacs{n}{PIXELS\PYGemacsZus{}PER\PYGemacsZus{}METER}\PYGemacs{o}{,}
+            \PYGemacs{n}{updatePixelsPerMeter}\PYGemacs{o}{:} \PYGemacs{n}{function}\PYGemacs{o}{(}\PYGemacs{n}{event}\PYGemacs{o}{)} \PYGemacs{o}{\PYGemacsZob{}}
+                \PYGemacs{n}{var} \PYGemacs{n}{newValue} \PYGemacs{o}{=} \PYGemacs{n}{\PYGemacsZdl{}}\PYGemacs{o}{(}\PYGemacs{err}{\PYGemacsZsq{}}\PYGemacs{n}{input}\PYGemacs{o}{.}\PYGemacs{n+na}{ppm}\PYGemacs{err}{\PYGemacsZsq{}}\PYGemacs{o}{).}\PYGemacs{n+na}{val}\PYGemacs{o}{();}
+                \PYGemacs{n}{PIXELS\PYGemacsZus{}PER\PYGemacsZus{}METER} \PYGemacs{o}{=} \PYGemacs{n}{newValue}\PYGemacs{o}{;}
+                \PYGemacs{n}{app}\PYGemacs{o}{.}\PYGemacs{n+na}{pixelsPerMeter} \PYGemacs{o}{=} \PYGemacs{n}{newValue}\PYGemacs{o}{;}
+                \PYGemacs{n}{simulation}\PYGemacs{o}{.}\PYGemacs{n+na}{fixParticles}\PYGemacs{o}{();}
+            \PYGemacs{o}{\PYGemacsZcb{},}
+            \PYGemacs{n}{simulation}\PYGemacs{o}{:} \PYGemacs{n}{simulation}\PYGemacs{o}{,}
+            \PYGemacs{n}{changeChargeSystem}\PYGemacs{o}{:} \PYGemacs{n}{function}\PYGemacs{o}{()} \PYGemacs{o}{\PYGemacsZob{}}
+                \PYGemacs{n}{var} \PYGemacs{n}{selectedSystem} \PYGemacs{o}{=} \PYGemacs{n}{\PYGemacsZdl{}}\PYGemacs{o}{(}\PYGemacs{err}{\PYGemacsZsq{}\PYGemacsZsh{}}\PYGemacs{n}{charge}\PYGemacs{o}{\PYGemacsZhy{}}\PYGemacs{n}{system}\PYGemacs{o}{\PYGemacsZhy{}}\PYGemacs{n}{selector}\PYGemacs{err}{\PYGemacsZsq{}}\PYGemacs{o}{).}\PYGemacs{n+na}{val}\PYGemacs{o}{();}
+                \PYGemacs{n}{simulation}\PYGemacs{o}{.}\PYGemacs{n+na}{reset}\PYGemacs{o}{();}
+                \PYGemacs{n}{app}\PYGemacs{o}{.}\PYGemacs{n+na}{simulation} \PYGemacs{o}{=} \PYGemacs{n}{simulation} \PYGemacs{o}{=} \PYGemacs{k}{new} \PYGemacs{n}{SYSTEMS\PYGemacsZus{}MAP}\PYGemacs{o}{[}\PYGemacs{n}{selectedSystem}\PYGemacs{o}{]();}
+            \PYGemacs{o}{\PYGemacsZcb{}}
+        \PYGemacs{o}{\PYGemacsZcb{},}
+        \PYGemacs{n}{components}\PYGemacs{o}{:} \PYGemacs{o}{\PYGemacsZob{}}
+            \PYGemacs{l+s}{\PYGemacsZdq{}particle\PYGemacsZhy{}controls\PYGemacsZdq{}}\PYGemacs{o}{:} \PYGemacs{o}{\PYGemacsZob{}}
+                \PYGemacs{n}{props}\PYGemacs{o}{:} \PYGemacs{o}{[}\PYGemacs{err}{\PYGemacsZsq{}}\PYGemacs{n}{index}\PYGemacs{err}{\PYGemacsZsq{}}\PYGemacs{o}{,} \PYGemacs{err}{\PYGemacsZsq{}}\PYGemacs{n}{particle}\PYGemacs{err}{\PYGemacsZsq{}}\PYGemacs{o}{],}
+                \PYGemacs{n}{data}\PYGemacs{o}{:} \PYGemacs{n}{function}\PYGemacs{o}{()} \PYGemacs{o}{\PYGemacsZob{}}
+                    \PYGemacs{k}{return} \PYGemacs{o}{\PYGemacsZob{}}
+                        \PYGemacs{n}{showing}\PYGemacs{o}{:} \PYGemacs{k+kc}{true}
+                    \PYGemacs{o}{\PYGemacsZcb{};}
+                \PYGemacs{o}{\PYGemacsZcb{},}
+                \PYGemacs{n}{template}\PYGemacs{o}{:} \PYGemacs{err}{`}
+\PYGemacs{o}{\PYGemacsZlt{}}\PYGemacs{n}{div} \PYGemacs{n}{class}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}panel panel\PYGemacsZhy{}warning\PYGemacsZdq{}}\PYGemacs{o}{\PYGemacsZgt{}}
+    \PYGemacs{o}{\PYGemacsZlt{}}\PYGemacs{n}{div} \PYGemacs{n}{class}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}panel\PYGemacsZhy{}heading unselectable\PYGemacsZdq{}} \PYGemacs{n}{v}\PYGemacs{o}{\PYGemacsZhy{}}\PYGemacs{n}{on}\PYGemacs{o}{:}\PYGemacs{n}{click}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}showing = !showing\PYGemacsZdq{}}\PYGemacs{o}{\PYGemacsZgt{}}
+        \PYGemacs{o}{\PYGemacsZlt{}}\PYGemacs{n}{span}\PYGemacs{o}{\PYGemacsZgt{}}\PYGemacs{n}{Particle} \PYGemacs{o}{\PYGemacsZob{}\PYGemacsZob{}} \PYGemacs{n}{index} \PYGemacs{o}{\PYGemacsZcb{}\PYGemacsZcb{}\PYGemacsZlt{}/}\PYGemacs{n}{span}\PYGemacs{o}{\PYGemacsZgt{}}
+        \PYGemacs{o}{\PYGemacsZlt{}}\PYGemacs{n}{span} \PYGemacs{n}{class}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}glyphicon glyphicon\PYGemacsZhy{}chevron\PYGemacsZhy{}down pull\PYGemacsZhy{}right\PYGemacsZdq{}} \PYGemacs{n}{v}\PYGemacs{o}{\PYGemacsZhy{}}\PYGemacs{n}{show}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}!showing\PYGemacsZdq{}}\PYGemacs{o}{\PYGemacsZgt{}\PYGemacsZlt{}/}\PYGemacs{n}{span}\PYGemacs{o}{\PYGemacsZgt{}}
+        \PYGemacs{o}{\PYGemacsZlt{}}\PYGemacs{n}{span} \PYGemacs{n}{class}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}glyphicon glyphicon\PYGemacsZhy{}chevron\PYGemacsZhy{}up pull\PYGemacsZhy{}right\PYGemacsZdq{}} \PYGemacs{n}{v}\PYGemacs{o}{\PYGemacsZhy{}}\PYGemacs{n}{show}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}showing\PYGemacsZdq{}}\PYGemacs{o}{\PYGemacsZgt{}\PYGemacsZlt{}/}\PYGemacs{n}{span}\PYGemacs{o}{\PYGemacsZgt{}}
+    \PYGemacs{o}{\PYGemacsZlt{}/}\PYGemacs{n}{div}\PYGemacs{o}{\PYGemacsZgt{}}
+    \PYGemacs{o}{\PYGemacsZlt{}}\PYGemacs{n}{div} \PYGemacs{n}{class}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}panel\PYGemacsZhy{}body\PYGemacsZdq{}} \PYGemacs{n}{v}\PYGemacs{o}{\PYGemacsZhy{}}\PYGemacs{n}{show}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}showing\PYGemacsZdq{}}\PYGemacs{o}{\PYGemacsZgt{}}
+        \PYGemacs{o}{\PYGemacsZlt{}}\PYGemacs{n}{div} \PYGemacs{n}{class}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}form\PYGemacsZhy{}group\PYGemacsZdq{}}\PYGemacs{o}{\PYGemacsZgt{}}
+            \PYGemacs{o}{\PYGemacsZlt{}}\PYGemacs{n}{div} \PYGemacs{n}{class}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}input\PYGemacsZhy{}group\PYGemacsZdq{}}\PYGemacs{o}{\PYGemacsZgt{}}
+                \PYGemacs{o}{\PYGemacsZlt{}}\PYGemacs{n}{span} \PYGemacs{n}{class}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}input\PYGemacsZhy{}group\PYGemacsZhy{}addon\PYGemacsZdq{}}\PYGemacs{o}{\PYGemacsZgt{}}\PYGemacs{n}{q} \PYGemacs{o}{=\PYGemacsZlt{}/}\PYGemacs{n}{span}\PYGemacs{o}{\PYGemacsZgt{}}
+                \PYGemacs{o}{\PYGemacsZlt{}}\PYGemacs{n}{input} \PYGemacs{n}{class}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}form\PYGemacsZhy{}control\PYGemacsZdq{}} \PYGemacs{n}{type}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}number\PYGemacsZdq{}} \PYGemacs{n}{v}\PYGemacs{o}{\PYGemacsZhy{}}\PYGemacs{n}{model}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}particle.charge\PYGemacsZdq{}} \PYGemacs{n}{v}\PYGemacs{o}{\PYGemacsZhy{}}\PYGemacs{n}{on}\PYGemacs{o}{:}\PYGemacs{n}{change}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}particle.setParticleColor()\PYGemacsZdq{}}\PYGemacs{o}{/\PYGemacsZgt{}}
+                \PYGemacs{o}{\PYGemacsZlt{}}\PYGemacs{n}{span} \PYGemacs{n}{class}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}input\PYGemacsZhy{}group\PYGemacsZhy{}addon\PYGemacsZdq{}}\PYGemacs{o}{\PYGemacsZgt{}}\PYGemacs{n}{C}\PYGemacs{o}{\PYGemacsZlt{}/}\PYGemacs{n}{span}\PYGemacs{o}{\PYGemacsZgt{}}
+            \PYGemacs{o}{\PYGemacsZlt{}/}\PYGemacs{n}{div}\PYGemacs{o}{\PYGemacsZgt{}}
+        \PYGemacs{o}{\PYGemacsZlt{}/}\PYGemacs{n}{div}\PYGemacs{o}{\PYGemacsZgt{}}
+        \PYGemacs{o}{\PYGemacsZlt{}}\PYGemacs{n}{div} \PYGemacs{n}{class}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}form\PYGemacsZhy{}group\PYGemacsZdq{}}\PYGemacs{o}{\PYGemacsZgt{}}
+            \PYGemacs{o}{\PYGemacsZlt{}}\PYGemacs{n}{div} \PYGemacs{n}{class}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}input\PYGemacsZhy{}group\PYGemacsZdq{}}\PYGemacs{o}{\PYGemacsZgt{}}
+                \PYGemacs{o}{\PYGemacsZlt{}}\PYGemacs{n}{span} \PYGemacs{n}{class}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}input\PYGemacsZhy{}group\PYGemacsZhy{}addon\PYGemacsZdq{}}\PYGemacs{o}{\PYGemacsZgt{}}\PYGemacs{n}{m} \PYGemacs{o}{=\PYGemacsZlt{}/}\PYGemacs{n}{span}\PYGemacs{o}{\PYGemacsZgt{}}
+                \PYGemacs{o}{\PYGemacsZlt{}}\PYGemacs{n}{input} \PYGemacs{n}{class}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}form\PYGemacsZhy{}control\PYGemacsZdq{}} \PYGemacs{n}{type}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}number\PYGemacsZdq{}} \PYGemacs{n}{v}\PYGemacs{o}{\PYGemacsZhy{}}\PYGemacs{n}{model}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}particle.mass\PYGemacsZdq{}}\PYGemacs{o}{/\PYGemacsZgt{}}
+                \PYGemacs{o}{\PYGemacsZlt{}}\PYGemacs{n}{span} \PYGemacs{n}{class}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}input\PYGemacsZhy{}group\PYGemacsZhy{}addon\PYGemacsZdq{}}\PYGemacs{o}{\PYGemacsZgt{}}\PYGemacs{n}{kg}\PYGemacs{o}{\PYGemacsZlt{}/}\PYGemacs{n}{span}\PYGemacs{o}{\PYGemacsZgt{}}
+            \PYGemacs{o}{\PYGemacsZlt{}/}\PYGemacs{n}{div}\PYGemacs{o}{\PYGemacsZgt{}}
+        \PYGemacs{o}{\PYGemacsZlt{}/}\PYGemacs{n}{div}\PYGemacs{o}{\PYGemacsZgt{}}
+        \PYGemacs{o}{\PYGemacsZlt{}}\PYGemacs{n}{div} \PYGemacs{n}{class}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}form\PYGemacsZhy{}group\PYGemacsZdq{}}\PYGemacs{o}{\PYGemacsZgt{}}
+            \PYGemacs{o}{\PYGemacsZlt{}}\PYGemacs{n}{div} \PYGemacs{n}{class}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}input\PYGemacsZhy{}group\PYGemacsZdq{}}\PYGemacs{o}{\PYGemacsZgt{}}
+                \PYGemacs{o}{\PYGemacsZlt{}}\PYGemacs{n}{span} \PYGemacs{n}{class}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}input\PYGemacsZhy{}group\PYGemacsZhy{}addon\PYGemacsZdq{}}\PYGemacs{o}{\PYGemacsZgt{}}\PYGemacs{n}{vx} \PYGemacs{o}{=\PYGemacsZlt{}/}\PYGemacs{n}{span}\PYGemacs{o}{\PYGemacsZgt{}}
+                \PYGemacs{o}{\PYGemacsZlt{}}\PYGemacs{n}{input} \PYGemacs{n}{class}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}form\PYGemacsZhy{}control\PYGemacsZdq{}} \PYGemacs{n}{type}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}number\PYGemacsZdq{}} \PYGemacs{n}{v}\PYGemacs{o}{\PYGemacsZhy{}}\PYGemacs{n}{model}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}particle.velocityX\PYGemacsZdq{}}\PYGemacs{o}{/\PYGemacsZgt{}}
+                \PYGemacs{o}{\PYGemacsZlt{}}\PYGemacs{n}{span} \PYGemacs{n}{class}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}input\PYGemacsZhy{}group\PYGemacsZhy{}addon\PYGemacsZdq{}}\PYGemacs{o}{\PYGemacsZgt{}}\PYGemacs{n}{m}\PYGemacs{o}{/}\PYGemacs{n}{s}\PYGemacs{o}{\PYGemacsZlt{}/}\PYGemacs{n}{span}\PYGemacs{o}{\PYGemacsZgt{}}
+            \PYGemacs{o}{\PYGemacsZlt{}/}\PYGemacs{n}{div}\PYGemacs{o}{\PYGemacsZgt{}}
+        \PYGemacs{o}{\PYGemacsZlt{}/}\PYGemacs{n}{div}\PYGemacs{o}{\PYGemacsZgt{}}
+        \PYGemacs{o}{\PYGemacsZlt{}}\PYGemacs{n}{div} \PYGemacs{n}{class}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}form\PYGemacsZhy{}group\PYGemacsZdq{}}\PYGemacs{o}{\PYGemacsZgt{}}
+            \PYGemacs{o}{\PYGemacsZlt{}}\PYGemacs{n}{div} \PYGemacs{n}{class}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}input\PYGemacsZhy{}group\PYGemacsZdq{}}\PYGemacs{o}{\PYGemacsZgt{}}
+                \PYGemacs{o}{\PYGemacsZlt{}}\PYGemacs{n}{span} \PYGemacs{n}{class}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}input\PYGemacsZhy{}group\PYGemacsZhy{}addon\PYGemacsZdq{}}\PYGemacs{o}{\PYGemacsZgt{}}\PYGemacs{n}{ax} \PYGemacs{o}{=\PYGemacsZlt{}/}\PYGemacs{n}{span}\PYGemacs{o}{\PYGemacsZgt{}}
+                \PYGemacs{o}{\PYGemacsZlt{}}\PYGemacs{n}{input} \PYGemacs{n}{class}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}form\PYGemacsZhy{}control\PYGemacsZdq{}} \PYGemacs{n}{type}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}number\PYGemacsZdq{}} \PYGemacs{n}{v}\PYGemacs{o}{\PYGemacsZhy{}}\PYGemacs{n}{model}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}particle.accelX\PYGemacsZdq{}}\PYGemacs{o}{/\PYGemacsZgt{}}
+                \PYGemacs{o}{\PYGemacsZlt{}}\PYGemacs{n}{span} \PYGemacs{n}{class}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}input\PYGemacsZhy{}group\PYGemacsZhy{}addon\PYGemacsZdq{}}\PYGemacs{o}{\PYGemacsZgt{}}\PYGemacs{n}{m}\PYGemacs{o}{/}\PYGemacs{n}{s}\PYGemacs{o}{\PYGemacsZca{}}\PYGemacs{l+m+mi}{2}\PYGemacs{o}{\PYGemacsZlt{}/}\PYGemacs{n}{span}\PYGemacs{o}{\PYGemacsZgt{}}
+            \PYGemacs{o}{\PYGemacsZlt{}/}\PYGemacs{n}{div}\PYGemacs{o}{\PYGemacsZgt{}}
+        \PYGemacs{o}{\PYGemacsZlt{}/}\PYGemacs{n}{div}\PYGemacs{o}{\PYGemacsZgt{}}
+        \PYGemacs{o}{\PYGemacsZlt{}}\PYGemacs{n}{div} \PYGemacs{n}{class}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}form\PYGemacsZhy{}group\PYGemacsZdq{}}\PYGemacs{o}{\PYGemacsZgt{}}
+            \PYGemacs{o}{\PYGemacsZlt{}}\PYGemacs{n}{div} \PYGemacs{n}{class}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}input\PYGemacsZhy{}group\PYGemacsZdq{}}\PYGemacs{o}{\PYGemacsZgt{}}
+                \PYGemacs{o}{\PYGemacsZlt{}}\PYGemacs{n}{span} \PYGemacs{n}{class}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}input\PYGemacsZhy{}group\PYGemacsZhy{}addon\PYGemacsZdq{}}\PYGemacs{o}{\PYGemacsZgt{}}\PYGemacs{n}{vy} \PYGemacs{o}{=\PYGemacsZlt{}/}\PYGemacs{n}{span}\PYGemacs{o}{\PYGemacsZgt{}}
+                \PYGemacs{o}{\PYGemacsZlt{}}\PYGemacs{n}{input} \PYGemacs{n}{class}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}form\PYGemacsZhy{}control\PYGemacsZdq{}} \PYGemacs{n}{type}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}number\PYGemacsZdq{}} \PYGemacs{n}{v}\PYGemacs{o}{\PYGemacsZhy{}}\PYGemacs{n}{model}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}particle.velocityY\PYGemacsZdq{}}\PYGemacs{o}{/\PYGemacsZgt{}}
+                \PYGemacs{o}{\PYGemacsZlt{}}\PYGemacs{n}{span} \PYGemacs{n}{class}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}input\PYGemacsZhy{}group\PYGemacsZhy{}addon\PYGemacsZdq{}}\PYGemacs{o}{\PYGemacsZgt{}}\PYGemacs{n}{m}\PYGemacs{o}{/}\PYGemacs{n}{s}\PYGemacs{o}{\PYGemacsZlt{}/}\PYGemacs{n}{span}\PYGemacs{o}{\PYGemacsZgt{}}
+            \PYGemacs{o}{\PYGemacsZlt{}/}\PYGemacs{n}{div}\PYGemacs{o}{\PYGemacsZgt{}}
+        \PYGemacs{o}{\PYGemacsZlt{}/}\PYGemacs{n}{div}\PYGemacs{o}{\PYGemacsZgt{}}
+        \PYGemacs{o}{\PYGemacsZlt{}}\PYGemacs{n}{div} \PYGemacs{n}{class}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}form\PYGemacsZhy{}group\PYGemacsZdq{}}\PYGemacs{o}{\PYGemacsZgt{}}
+            \PYGemacs{o}{\PYGemacsZlt{}}\PYGemacs{n}{div} \PYGemacs{n}{class}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}input\PYGemacsZhy{}group\PYGemacsZdq{}}\PYGemacs{o}{\PYGemacsZgt{}}
+                \PYGemacs{o}{\PYGemacsZlt{}}\PYGemacs{n}{span} \PYGemacs{n}{class}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}input\PYGemacsZhy{}group\PYGemacsZhy{}addon\PYGemacsZdq{}}\PYGemacs{o}{\PYGemacsZgt{}}\PYGemacs{n}{ay} \PYGemacs{o}{=\PYGemacsZlt{}/}\PYGemacs{n}{span}\PYGemacs{o}{\PYGemacsZgt{}}
+                \PYGemacs{o}{\PYGemacsZlt{}}\PYGemacs{n}{input} \PYGemacs{n}{class}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}form\PYGemacsZhy{}control\PYGemacsZdq{}} \PYGemacs{n}{type}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}number\PYGemacsZdq{}} \PYGemacs{n}{v}\PYGemacs{o}{\PYGemacsZhy{}}\PYGemacs{n}{model}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}particle.accelY\PYGemacsZdq{}}\PYGemacs{o}{/\PYGemacsZgt{}}
+                \PYGemacs{o}{\PYGemacsZlt{}}\PYGemacs{n}{span} \PYGemacs{n}{class}\PYGemacs{o}{=}\PYGemacs{l+s}{\PYGemacsZdq{}input\PYGemacsZhy{}group\PYGemacsZhy{}addon\PYGemacsZdq{}}\PYGemacs{o}{\PYGemacsZgt{}}\PYGemacs{n}{m}\PYGemacs{o}{/}\PYGemacs{n}{s}\PYGemacs{o}{\PYGemacsZca{}}\PYGemacs{l+m+mi}{2}\PYGemacs{o}{\PYGemacsZlt{}/}\PYGemacs{n}{span}\PYGemacs{o}{\PYGemacsZgt{}}
+            \PYGemacs{o}{\PYGemacsZlt{}/}\PYGemacs{n}{div}\PYGemacs{o}{\PYGemacsZgt{}}
+        \PYGemacs{o}{\PYGemacsZlt{}/}\PYGemacs{n}{div}\PYGemacs{o}{\PYGemacsZgt{}}
+    \PYGemacs{o}{\PYGemacsZlt{}/}\PYGemacs{n}{div}\PYGemacs{o}{\PYGemacsZgt{}}
+\PYGemacs{o}{\PYGemacsZlt{}/}\PYGemacs{n}{div}\PYGemacs{o}{\PYGemacsZgt{}}
+\PYGemacs{err}{`}
+            \PYGemacs{o}{\PYGemacsZcb{}}
+        \PYGemacs{o}{\PYGemacsZcb{}}
+    \PYGemacs{o}{\PYGemacsZcb{});}
+\PYGemacs{o}{\PYGemacsZcb{}}
+\end{Verbatim}

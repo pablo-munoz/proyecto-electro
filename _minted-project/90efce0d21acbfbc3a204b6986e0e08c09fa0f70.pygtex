@@ -1,0 +1,11 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYGemacs{k+kr}{const} \PYGemacs{n+nx}{WINDOW\PYGemacsZus{}WIDTH}  \PYGemacs{o}{=} \PYGemacs{l+m+mi}{960}\PYGemacs{p}{;}
+\PYGemacs{k+kr}{const} \PYGemacs{n+nx}{WINDOW\PYGemacsZus{}HEIGHT} \PYGemacs{o}{=} \PYGemacs{l+m+mi}{720}\PYGemacs{p}{;}
+\PYGemacs{k+kr}{const} \PYGemacs{n+nx}{PERMITIVITY}   \PYGemacs{o}{=} \PYGemacs{l+m+mi}{9} \PYGemacs{o}{*} \PYGemacs{n+nb}{Math}\PYGemacs{p}{.}\PYGemacs{n+nx}{pow}\PYGemacs{p}{(}\PYGemacs{l+m+mi}{10}\PYGemacs{p}{,} \PYGemacs{l+m+mi}{9}\PYGemacs{p}{);}
+
+\PYGemacs{k+kr}{const} \PYGemacs{n+nx}{ELECTRON\PYGemacsZus{}CHARGE} \PYGemacs{o}{=} \PYGemacs{o}{\PYGemacsZhy{}}\PYGemacs{l+m+mf}{1.602} \PYGemacs{o}{*} \PYGemacs{n+nb}{Math}\PYGemacs{p}{.}\PYGemacs{n+nx}{pow}\PYGemacs{p}{(}\PYGemacs{l+m+mi}{10}\PYGemacs{p}{,} \PYGemacs{o}{\PYGemacsZhy{}}\PYGemacs{l+m+mi}{19}\PYGemacs{p}{);}
+\PYGemacs{k+kr}{const} \PYGemacs{n+nx}{PROTON\PYGemacsZus{}CHARGE}   \PYGemacs{o}{=} \PYGemacs{o}{\PYGemacsZhy{}}\PYGemacs{n+nx}{ELECTRON\PYGemacsZus{}CHARGE}\PYGemacs{p}{;}
+\PYGemacs{k+kr}{const} \PYGemacs{n+nx}{PROTON\PYGemacsZus{}MASS}     \PYGemacs{o}{=} \PYGemacs{l+m+mf}{1.6727} \PYGemacs{o}{*} \PYGemacs{n+nb}{Math}\PYGemacs{p}{.}\PYGemacs{n+nx}{pow}\PYGemacs{p}{(}\PYGemacs{l+m+mi}{10}\PYGemacs{p}{,} \PYGemacs{o}{\PYGemacsZhy{}}\PYGemacs{l+m+mi}{27}\PYGemacs{p}{);}
+\PYGemacs{k+kr}{const} \PYGemacs{n+nx}{Neutron\PYGemacsZus{}MASS}    \PYGemacs{o}{=} \PYGemacs{l+m+mf}{1.6750} \PYGemacs{o}{*} \PYGemacs{n+nb}{Math}\PYGemacs{p}{.}\PYGemacs{n+nx}{pow}\PYGemacs{p}{(}\PYGemacs{l+m+mi}{10}\PYGemacs{p}{,} \PYGemacs{o}{\PYGemacsZhy{}}\PYGemacs{l+m+mi}{27}\PYGemacs{p}{);}
+\PYGemacs{k+kr}{const} \PYGemacs{n+nx}{ELECTRON\PYGemacsZus{}MASS}   \PYGemacs{o}{=}  \PYGemacs{l+m+mf}{9.110} \PYGemacs{o}{*} \PYGemacs{n+nb}{Math}\PYGemacs{p}{.}\PYGemacs{n+nx}{pow}\PYGemacs{p}{(}\PYGemacs{l+m+mi}{10}\PYGemacs{p}{,} \PYGemacs{o}{\PYGemacsZhy{}}\PYGemacs{l+m+mi}{31}\PYGemacs{p}{);}
+\end{Verbatim}

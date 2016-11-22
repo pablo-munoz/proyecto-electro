@@ -1,0 +1,83 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYGemacs{k+kr}{class} \PYGemacs{n+nx}{ChargeSystem} \PYGemacs{p}{\PYGemacsZob{}}
+    \PYGemacs{n+nx}{constructor}\PYGemacs{p}{()} \PYGemacs{p}{\PYGemacsZob{}}
+        \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{initialize}\PYGemacs{p}{();}
+        \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{running} \PYGemacs{o}{=} \PYGemacs{k+kc}{false}\PYGemacs{p}{;}
+    \PYGemacs{p}{\PYGemacsZcb{}}
+
+    \PYGemacs{n+nx}{initialize}\PYGemacs{p}{()} \PYGemacs{p}{\PYGemacsZob{}}
+        \PYGemacs{n+nx}{paper}\PYGemacs{p}{.}\PYGemacs{n+nx}{project}\PYGemacs{p}{.}\PYGemacs{n+nx}{activeLayer}\PYGemacs{p}{.}\PYGemacs{n+nx}{removeChildren}\PYGemacs{p}{();}
+        \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{particles} \PYGemacs{o}{=} \PYGemacs{p}{[];}
+        \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{frameMillis} \PYGemacs{o}{=} \PYGemacs{l+m+mi}{1000}\PYGemacs{o}{/}\PYGemacs{l+m+mi}{60}\PYGemacs{p}{;}
+        \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{secondsElapsed} \PYGemacs{o}{=} \PYGemacs{l+m+mi}{0}\PYGemacs{p}{;}
+
+        \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{secondsLabel} \PYGemacs{o}{=} \PYGemacs{k}{new} \PYGemacs{n+nx}{PointText}\PYGemacs{p}{(}\PYGemacs{l+m+mi}{20}\PYGemacs{p}{,} \PYGemacs{l+m+mi}{20}\PYGemacs{p}{);}
+        \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{secondsLabel}\PYGemacs{p}{.}\PYGemacs{n+nx}{fontSize} \PYGemacs{o}{=} \PYGemacs{l+m+mi}{16}\PYGemacs{p}{;}
+        \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{formatSecondsLabel}\PYGemacs{p}{();}
+    \PYGemacs{p}{\PYGemacsZcb{}}
+
+    \PYGemacs{n+nx}{start}\PYGemacs{p}{()} \PYGemacs{p}{\PYGemacsZob{}}
+        \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{refreshIntervalId} \PYGemacs{o}{=} \PYGemacs{n+nx}{setInterval}\PYGemacs{p}{(}\PYGemacs{n+nx}{\PYGemacsZus{}}\PYGemacs{p}{.}\PYGemacs{n+nx}{bind}\PYGemacs{p}{(}\PYGemacs{k+kd}{function}\PYGemacs{p}{()} \PYGemacs{p}{\PYGemacsZob{}}
+            \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{advance}\PYGemacs{p}{();}
+            \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{formatSecondsLabel}\PYGemacs{p}{();}
+            \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{secondsElapsed} \PYGemacs{o}{+=} \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{frameMillis} \PYGemacs{o}{/} \PYGemacs{l+m+mi}{1000}\PYGemacs{p}{;}
+        \PYGemacs{p}{\PYGemacsZcb{},} \PYGemacs{k}{this}\PYGemacs{p}{),} \PYGemacs{l+m+mi}{1000}\PYGemacs{o}{/}\PYGemacs{l+m+mi}{60}\PYGemacs{c+cm}{/*this.frameMillis*/}\PYGemacs{p}{);}
+        \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{disableInputs}\PYGemacs{p}{();}
+        \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{running} \PYGemacs{o}{=} \PYGemacs{k+kc}{true}\PYGemacs{p}{;}
+        \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{renameStartStopButton}\PYGemacs{p}{();}
+    \PYGemacs{p}{\PYGemacsZcb{}}
+
+    \PYGemacs{n+nx}{stop}\PYGemacs{p}{()} \PYGemacs{p}{\PYGemacsZob{}}
+        \PYGemacs{n+nx}{clearInterval}\PYGemacs{p}{(}\PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{refreshIntervalId}\PYGemacs{p}{);}
+        \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{running} \PYGemacs{o}{=} \PYGemacs{k+kc}{false}\PYGemacs{p}{;}
+        \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{renameStartStopButton}\PYGemacs{p}{();}
+    \PYGemacs{p}{\PYGemacsZcb{}}
+
+    \PYGemacs{n+nx}{reset}\PYGemacs{p}{()} \PYGemacs{p}{\PYGemacsZob{}}
+        \PYGemacs{n+nx}{PIXELS\PYGemacsZus{}PER\PYGemacsZus{}METER} \PYGemacs{o}{=} \PYGemacs{l+m+mi}{100}\PYGemacs{p}{;}
+        \PYGemacs{n+nx}{app}\PYGemacs{p}{.}\PYGemacs{n+nx}{\PYGemacsZdl{}set}\PYGemacs{p}{(}\PYGemacs{n+nx}{app}\PYGemacs{p}{,} \PYGemacs{l+s+s1}{\PYGemacsZsq{}pixelsPerMeter\PYGemacsZsq{}}\PYGemacs{p}{,} \PYGemacs{l+m+mi}{100}\PYGemacs{p}{);}
+        \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{secondsElapsed} \PYGemacs{o}{=} \PYGemacs{l+m+mi}{0}\PYGemacs{p}{;}
+        \PYGemacs{n+nx}{clearInterval}\PYGemacs{p}{(}\PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{refreshIntervalId}\PYGemacs{p}{);}
+        \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{refreshIntervalId} \PYGemacs{o}{=} \PYGemacs{k+kc}{undefined}\PYGemacs{p}{;}
+        \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{initialize}\PYGemacs{p}{();}
+        \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{running} \PYGemacs{o}{=} \PYGemacs{k+kc}{false}\PYGemacs{p}{;}
+        \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{enableInputs}\PYGemacs{p}{();}
+        \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{renameStartStopButton}\PYGemacs{p}{();}
+    \PYGemacs{p}{\PYGemacsZcb{}}
+
+    \PYGemacs{n+nx}{toggleStatus}\PYGemacs{p}{()} \PYGemacs{p}{\PYGemacsZob{}}
+        \PYGemacs{k}{if} \PYGemacs{p}{(}\PYGemacs{o}{!}\PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{running}\PYGemacs{p}{)} \PYGemacs{p}{\PYGemacsZob{}}
+            \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{start}\PYGemacs{p}{();}
+        \PYGemacs{p}{\PYGemacsZcb{}} \PYGemacs{k}{else} \PYGemacs{p}{\PYGemacsZob{}}
+            \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{stop}\PYGemacs{p}{();}
+        \PYGemacs{p}{\PYGemacsZcb{}}
+    \PYGemacs{p}{\PYGemacsZcb{}}
+
+    \PYGemacs{n+nx}{disableInputs}\PYGemacs{p}{()} \PYGemacs{p}{\PYGemacsZob{}}
+        \PYGemacs{n+nx}{\PYGemacsZdl{}}\PYGemacs{p}{(}\PYGemacs{l+s+s1}{\PYGemacsZsq{}input\PYGemacsZsq{}}\PYGemacs{p}{).}\PYGemacs{n+nx}{attr}\PYGemacs{p}{(}\PYGemacs{l+s+s1}{\PYGemacsZsq{}disabled\PYGemacsZsq{}}\PYGemacs{p}{,} \PYGemacs{l+s+s1}{\PYGemacsZsq{}disabled\PYGemacsZsq{}}\PYGemacs{p}{);}
+    \PYGemacs{p}{\PYGemacsZcb{}}
+
+    \PYGemacs{n+nx}{enableInputs}\PYGemacs{p}{()} \PYGemacs{p}{\PYGemacsZob{}}
+        \PYGemacs{n+nx}{\PYGemacsZdl{}}\PYGemacs{p}{(}\PYGemacs{l+s+s1}{\PYGemacsZsq{}input\PYGemacsZsq{}}\PYGemacs{p}{).}\PYGemacs{n+nx}{attr}\PYGemacs{p}{(}\PYGemacs{l+s+s1}{\PYGemacsZsq{}disabled\PYGemacsZsq{}}\PYGemacs{p}{,} \PYGemacs{k+kc}{null}\PYGemacs{p}{);}
+    \PYGemacs{p}{\PYGemacsZcb{}}
+
+    \PYGemacs{n+nx}{renameStartStopButton}\PYGemacs{p}{()} \PYGemacs{p}{\PYGemacsZob{}}
+        \PYGemacs{k}{if} \PYGemacs{p}{(}\PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{running}\PYGemacs{p}{)} \PYGemacs{p}{\PYGemacsZob{}}
+            \PYGemacs{n+nx}{\PYGemacsZdl{}}\PYGemacs{p}{(}\PYGemacs{l+s+s1}{\PYGemacsZsq{}\PYGemacsZsh{}start\PYGemacsZhy{}stop\PYGemacsZhy{}btn\PYGemacsZsq{}}\PYGemacs{p}{).}\PYGemacs{n+nx}{text}\PYGemacs{p}{(}\PYGemacs{l+s+s1}{\PYGemacsZsq{}Stop\PYGemacsZsq{}}\PYGemacs{p}{);}
+        \PYGemacs{p}{\PYGemacsZcb{}} \PYGemacs{k}{else} \PYGemacs{p}{\PYGemacsZob{}}
+            \PYGemacs{n+nx}{\PYGemacsZdl{}}\PYGemacs{p}{(}\PYGemacs{l+s+s1}{\PYGemacsZsq{}\PYGemacsZsh{}start\PYGemacsZhy{}stop\PYGemacsZhy{}btn\PYGemacsZsq{}}\PYGemacs{p}{).}\PYGemacs{n+nx}{text}\PYGemacs{p}{(}\PYGemacs{l+s+s1}{\PYGemacsZsq{}Start\PYGemacsZsq{}}\PYGemacs{p}{);}
+        \PYGemacs{p}{\PYGemacsZcb{}}
+    \PYGemacs{p}{\PYGemacsZcb{}}
+
+    \PYGemacs{n+nx}{formatSecondsLabel}\PYGemacs{p}{()} \PYGemacs{p}{\PYGemacsZob{}}
+        \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{secondsLabel}\PYGemacs{p}{.}\PYGemacs{n+nx}{content} \PYGemacs{o}{=} \PYGemacs{l+s+s2}{\PYGemacsZdq{}t = \PYGemacsZdq{}} \PYGemacs{o}{+} \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{secondsElapsed} \PYGemacs{o}{+} \PYGemacs{l+s+s2}{\PYGemacsZdq{}s\PYGemacsZdq{}}\PYGemacs{p}{;}
+    \PYGemacs{p}{\PYGemacsZcb{}}
+
+    \PYGemacs{n+nx}{fixParticles}\PYGemacs{p}{()\PYGemacsZob{}}
+        \PYGemacs{n+nx}{\PYGemacsZus{}}\PYGemacs{p}{.}\PYGemacs{n+nx}{forEach}\PYGemacs{p}{(}\PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{particles}\PYGemacs{p}{,} \PYGemacs{n+nx}{\PYGemacsZus{}}\PYGemacs{p}{.}\PYGemacs{n+nx}{bind}\PYGemacs{p}{(}\PYGemacs{k+kd}{function}\PYGemacs{p}{(}\PYGemacs{n+nx}{particle}\PYGemacs{p}{)} \PYGemacs{p}{\PYGemacsZob{}}
+            \PYGemacs{n+nx}{particle}\PYGemacs{p}{.}\PYGemacs{n+nx}{x} \PYGemacs{o}{=} \PYGemacs{p}{(}\PYGemacs{n+nx}{particle}\PYGemacs{p}{.}\PYGemacs{n+nx}{circle}\PYGemacs{p}{.}\PYGemacs{n+nx}{position}\PYGemacs{p}{.}\PYGemacs{n+nx}{x} \PYGemacs{o}{\PYGemacsZhy{}} \PYGemacs{n+nx}{WINDOW\PYGemacsZus{}WIDTH}\PYGemacs{o}{/}\PYGemacs{l+m+mi}{2}\PYGemacs{p}{)} \PYGemacs{o}{/} \PYGemacs{n+nx}{PIXELS\PYGemacsZus{}PER\PYGemacsZus{}METER}\PYGemacs{p}{;}
+            \PYGemacs{n+nx}{particle}\PYGemacs{p}{.}\PYGemacs{n+nx}{y} \PYGemacs{o}{=} \PYGemacs{o}{\PYGemacsZhy{}}\PYGemacs{p}{(}\PYGemacs{n+nx}{particle}\PYGemacs{p}{.}\PYGemacs{n+nx}{circle}\PYGemacs{p}{.}\PYGemacs{n+nx}{position}\PYGemacs{p}{.}\PYGemacs{n+nx}{y} \PYGemacs{o}{\PYGemacsZhy{}} \PYGemacs{n+nx}{WINDOW\PYGemacsZus{}HEIGHT}\PYGemacs{o}{/}\PYGemacs{l+m+mi}{2}\PYGemacs{p}{)} \PYGemacs{o}{/} \PYGemacs{n+nx}{PIXELS\PYGemacsZus{}PER\PYGemacsZus{}METER}\PYGemacs{p}{;}
+        \PYGemacs{p}{\PYGemacsZcb{},} \PYGemacs{k}{this}\PYGemacs{p}{));}
+    \PYGemacs{p}{\PYGemacsZcb{}}
+\PYGemacs{p}{\PYGemacsZcb{}}
+\end{Verbatim}

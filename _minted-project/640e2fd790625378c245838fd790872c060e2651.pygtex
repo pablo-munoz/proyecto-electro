@@ -1,0 +1,5 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYGemacs{k+kd}{var} \PYGemacs{n+nx}{PIXELS\PYGemacsZus{}PER\PYGemacsZus{}METER} \PYGemacs{o}{=} \PYGemacs{l+m+mi}{100}\PYGemacs{p}{;}
+\PYGemacs{k+kd}{var} \PYGemacs{n+nx}{simulation} \PYGemacs{o}{=} \PYGemacs{k+kc}{undefined}\PYGemacs{p}{;}
+\PYGemacs{k+kd}{var} \PYGemacs{n+nx}{app} \PYGemacs{o}{=} \PYGemacs{k+kc}{undefined}\PYGemacs{p}{;}
+\end{Verbatim}

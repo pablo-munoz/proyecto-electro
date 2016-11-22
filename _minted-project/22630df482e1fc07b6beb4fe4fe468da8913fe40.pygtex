@@ -1,0 +1,80 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYGemacs{k+kr}{class} \PYGemacs{n+nx}{Particle} \PYGemacs{p}{\PYGemacsZob{}}
+    \PYGemacs{c+c1}{// x, y, radius}
+    \PYGemacs{n+nx}{constructor}\PYGemacs{p}{(}\PYGemacs{n+nx}{args}\PYGemacs{p}{)} \PYGemacs{p}{\PYGemacsZob{}}
+        \PYGemacs{n+nx}{\PYGemacsZus{}}\PYGemacs{p}{.}\PYGemacs{n+nx}{assign}\PYGemacs{p}{(}\PYGemacs{k}{this}\PYGemacs{p}{,} \PYGemacs{n+nx}{\PYGemacsZus{}}\PYGemacs{p}{.}\PYGemacs{n+nx}{defaults}\PYGemacs{p}{(}\PYGemacs{n+nx}{args}\PYGemacs{p}{,} \PYGemacs{p}{\PYGemacsZob{}}
+            \PYGemacs{n+nx}{x}\PYGemacs{o}{:} \PYGemacs{n+nx}{WINDOW\PYGemacsZus{}WIDTH} \PYGemacs{o}{/} \PYGemacs{l+m+mi}{2}\PYGemacs{p}{,}
+            \PYGemacs{n+nx}{y}\PYGemacs{o}{:} \PYGemacs{n+nx}{WINDOW\PYGemacsZus{}HEIGHT} \PYGemacs{o}{/} \PYGemacs{l+m+mi}{2}\PYGemacs{p}{,}
+            \PYGemacs{n+nx}{radius}\PYGemacs{o}{:} \PYGemacs{l+m+mi}{8}\PYGemacs{p}{,}
+            \PYGemacs{n+nx}{velocityX}\PYGemacs{o}{:} \PYGemacs{l+m+mi}{0}\PYGemacs{p}{,}            \PYGemacs{c+c1}{// m/s}
+            \PYGemacs{n+nx}{velocityY}\PYGemacs{o}{:} \PYGemacs{l+m+mi}{0}\PYGemacs{p}{,}            \PYGemacs{c+c1}{// m/s}
+            \PYGemacs{n+nx}{accelX}\PYGemacs{o}{:} \PYGemacs{l+m+mi}{0}\PYGemacs{p}{,}               \PYGemacs{c+c1}{// m/s}
+            \PYGemacs{n+nx}{accelY}\PYGemacs{o}{:} \PYGemacs{l+m+mi}{0}\PYGemacs{p}{,}               \PYGemacs{c+c1}{// m/s}
+            \PYGemacs{n+nx}{charge}\PYGemacs{o}{:} \PYGemacs{n+nx}{ELECTRON\PYGemacsZus{}CHARGE}\PYGemacs{p}{,} \PYGemacs{c+c1}{// C}
+            \PYGemacs{n+nx}{mass}\PYGemacs{o}{:} \PYGemacs{n+nx}{ELECTRON\PYGemacsZus{}MASS}      \PYGemacs{c+c1}{// kg}
+        \PYGemacs{p}{\PYGemacsZcb{}));}
+
+        \PYGemacs{k}{if} \PYGemacs{p}{(}\PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{charge} \PYGemacs{o}{\PYGemacsZgt{}} \PYGemacs{l+m+mi}{0}\PYGemacs{p}{)} \PYGemacs{p}{\PYGemacsZob{}}
+            \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{color} \PYGemacs{o}{=} \PYGemacs{l+s+s1}{\PYGemacsZsq{}red\PYGemacsZsq{}}\PYGemacs{p}{;}
+        \PYGemacs{p}{\PYGemacsZcb{}} \PYGemacs{k}{else} \PYGemacs{k}{if} \PYGemacs{p}{(}\PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{charge} \PYGemacs{o}{\PYGemacsZlt{}} \PYGemacs{l+m+mi}{0}\PYGemacs{p}{)} \PYGemacs{p}{\PYGemacsZob{}}
+            \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{color} \PYGemacs{o}{=} \PYGemacs{l+s+s1}{\PYGemacsZsq{}blue\PYGemacsZsq{}}\PYGemacs{p}{;}
+        \PYGemacs{p}{\PYGemacsZcb{}}
+    \PYGemacs{p}{\PYGemacsZcb{}}
+
+    \PYGemacs{n+nx}{draw}\PYGemacs{p}{()} \PYGemacs{p}{\PYGemacsZob{}}
+        \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{circle} \PYGemacs{o}{=} \PYGemacs{k}{new} \PYGemacs{n+nx}{Path}\PYGemacs{p}{.}\PYGemacs{n+nx}{Circle}\PYGemacs{p}{(}\PYGemacs{k}{new} \PYGemacs{n+nx}{Point}\PYGemacs{p}{(}\PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{x}\PYGemacs{p}{,} \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{y}\PYGemacs{p}{),} \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{radius}\PYGemacs{p}{);}
+        \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{circle}\PYGemacs{p}{.}\PYGemacs{n+nx}{fillColor} \PYGemacs{o}{=} \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{color}\PYGemacs{p}{;}
+    \PYGemacs{p}{\PYGemacsZcb{}}
+
+    \PYGemacs{n+nx}{on}\PYGemacs{p}{(}\PYGemacs{n+nx}{event}\PYGemacs{p}{,} \PYGemacs{n+nx}{func}\PYGemacs{p}{)} \PYGemacs{p}{\PYGemacsZob{}}
+        \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{circle}\PYGemacs{p}{[}\PYGemacs{l+s+s1}{\PYGemacsZsq{}on\PYGemacsZsq{}} \PYGemacs{o}{+} \PYGemacs{n+nx}{\PYGemacsZus{}}\PYGemacs{p}{.}\PYGemacs{n+nx}{capitalize}\PYGemacs{p}{(}\PYGemacs{n+nx}{event}\PYGemacs{p}{)]} \PYGemacs{o}{=} \PYGemacs{n+nx}{func}\PYGemacs{p}{;}
+    \PYGemacs{p}{\PYGemacsZcb{}}
+
+    \PYGemacs{n+nx}{reactToElectricFieldDueTo}\PYGemacs{p}{(}\PYGemacs{n+nx}{otherParticle}\PYGemacs{p}{)} \PYGemacs{p}{\PYGemacsZob{}}
+        \PYGemacs{k+kr}{const} \PYGemacs{n+nx}{distanceX} \PYGemacs{o}{=} \PYGemacs{p}{(}\PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{circle}\PYGemacs{p}{.}\PYGemacs{n+nx}{position}\PYGemacs{p}{.}\PYGemacs{n+nx}{x} \PYGemacs{o}{\PYGemacsZhy{}} \PYGemacs{n+nx}{otherParticle}\PYGemacs{p}{.}\PYGemacs{n+nx}{circle}\PYGemacs{p}{.}\PYGemacs{n+nx}{position}\PYGemacs{p}{.}\PYGemacs{n+nx}{x}\PYGemacs{p}{);} \PYGemacs{c+c1}{// 1 pxl = 1cm}
+        \PYGemacs{k+kr}{const} \PYGemacs{n+nx}{distanceY} \PYGemacs{o}{=} \PYGemacs{p}{(}\PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{circle}\PYGemacs{p}{.}\PYGemacs{n+nx}{position}\PYGemacs{p}{.}\PYGemacs{n+nx}{y} \PYGemacs{o}{\PYGemacsZhy{}} \PYGemacs{n+nx}{otherParticle}\PYGemacs{p}{.}\PYGemacs{n+nx}{circle}\PYGemacs{p}{.}\PYGemacs{n+nx}{position}\PYGemacs{p}{.}\PYGemacs{n+nx}{y}\PYGemacs{p}{);} \PYGemacs{c+c1}{// 1 pyl = 1cm}
+        \PYGemacs{k+kd}{var} \PYGemacs{n+nx}{forceX} \PYGemacs{o}{=} \PYGemacs{l+m+mi}{0}\PYGemacs{p}{,}
+            \PYGemacs{n+nx}{forceY} \PYGemacs{o}{=} \PYGemacs{l+m+mi}{0}\PYGemacs{p}{;}
+
+        \PYGemacs{k}{if} \PYGemacs{p}{(}\PYGemacs{n+nx}{distanceX} \PYGemacs{o}{!=} \PYGemacs{l+m+mi}{0}\PYGemacs{p}{)} \PYGemacs{p}{\PYGemacsZob{}}
+            \PYGemacs{n+nx}{forceX} \PYGemacs{o}{=} \PYGemacs{n+nx}{PERMITIVITY} \PYGemacs{o}{*} \PYGemacs{p}{(}\PYGemacs{n+nb}{Math}\PYGemacs{p}{.}\PYGemacs{n+nx}{abs}\PYGemacs{p}{((}\PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{charge} \PYGemacs{o}{*} \PYGemacs{n+nx}{otherParticle}\PYGemacs{p}{.}\PYGemacs{n+nx}{charge}\PYGemacs{p}{))}
+                                    \PYGemacs{o}{/} \PYGemacs{n+nb}{Math}\PYGemacs{p}{.}\PYGemacs{n+nx}{pow}\PYGemacs{p}{(}\PYGemacs{n+nx}{distanceX}\PYGemacs{p}{,} \PYGemacs{l+m+mi}{2}\PYGemacs{p}{));}
+        \PYGemacs{p}{\PYGemacsZcb{}}
+        \PYGemacs{k}{if} \PYGemacs{p}{(}\PYGemacs{n+nx}{distanceY} \PYGemacs{o}{!=} \PYGemacs{l+m+mi}{0}\PYGemacs{p}{)} \PYGemacs{p}{\PYGemacsZob{}}
+            \PYGemacs{n+nx}{forceY} \PYGemacs{o}{=} \PYGemacs{n+nx}{PERMITIVITY} \PYGemacs{o}{*} \PYGemacs{p}{(}\PYGemacs{n+nb}{Math}\PYGemacs{p}{.}\PYGemacs{n+nx}{abs}\PYGemacs{p}{((}\PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{charge} \PYGemacs{o}{*} \PYGemacs{n+nx}{otherParticle}\PYGemacs{p}{.}\PYGemacs{n+nx}{charge}\PYGemacs{p}{))}
+                                    \PYGemacs{o}{/} \PYGemacs{n+nb}{Math}\PYGemacs{p}{.}\PYGemacs{n+nx}{pow}\PYGemacs{p}{(}\PYGemacs{n+nx}{distanceY}\PYGemacs{p}{,} \PYGemacs{l+m+mi}{2}\PYGemacs{p}{));}
+        \PYGemacs{p}{\PYGemacsZcb{}}
+
+        \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{accelX} \PYGemacs{o}{=} \PYGemacs{n+nx}{forceX} \PYGemacs{o}{/} \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{mass}\PYGemacs{p}{;}
+        \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{accelY} \PYGemacs{o}{=} \PYGemacs{n+nx}{forceY} \PYGemacs{o}{/} \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{mass}\PYGemacs{p}{;}
+
+        \PYGemacs{c+c1}{// Still need to come up with proper sign}
+        \PYGemacs{k+kr}{const} \PYGemacs{n+nx}{sameChargeType} \PYGemacs{o}{=} \PYGemacs{n+nb}{Math}\PYGemacs{p}{.}\PYGemacs{n+nx}{sign}\PYGemacs{p}{(}\PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{charge}\PYGemacs{p}{)} \PYGemacs{o}{==} \PYGemacs{n+nb}{Math}\PYGemacs{p}{.}\PYGemacs{n+nx}{sign}\PYGemacs{p}{(}\PYGemacs{n+nx}{otherParticle}\PYGemacs{p}{.}\PYGemacs{n+nx}{charge}\PYGemacs{p}{);}
+
+        \PYGemacs{k}{if} \PYGemacs{p}{(}\PYGemacs{n+nx}{sameChargeType}\PYGemacs{p}{)} \PYGemacs{p}{\PYGemacsZob{}}
+            \PYGemacs{c+c1}{// Repel each other}
+            \PYGemacs{k}{if} \PYGemacs{p}{(}\PYGemacs{n+nx}{otherParticle}\PYGemacs{p}{.}\PYGemacs{n+nx}{circle}\PYGemacs{p}{.}\PYGemacs{n+nx}{position}\PYGemacs{p}{.}\PYGemacs{n+nx}{x} \PYGemacs{o}{\PYGemacsZgt{}} \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{circle}\PYGemacs{p}{.}\PYGemacs{n+nx}{position}\PYGemacs{p}{.}\PYGemacs{n+nx}{x}\PYGemacs{p}{)} \PYGemacs{p}{\PYGemacsZob{}}
+                \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{accelX} \PYGemacs{o}{*=} \PYGemacs{o}{\PYGemacsZhy{}}\PYGemacs{l+m+mi}{1}\PYGemacs{p}{;}
+            \PYGemacs{p}{\PYGemacsZcb{}}
+            \PYGemacs{k}{if} \PYGemacs{p}{(}\PYGemacs{n+nx}{otherParticle}\PYGemacs{p}{.}\PYGemacs{n+nx}{circle}\PYGemacs{p}{.}\PYGemacs{n+nx}{position}\PYGemacs{p}{.}\PYGemacs{n+nx}{y} \PYGemacs{o}{\PYGemacsZgt{}} \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{circle}\PYGemacs{p}{.}\PYGemacs{n+nx}{position}\PYGemacs{p}{.}\PYGemacs{n+nx}{y}\PYGemacs{p}{)} \PYGemacs{p}{\PYGemacsZob{}}
+                \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{accely} \PYGemacs{o}{*=} \PYGemacs{o}{\PYGemacsZhy{}}\PYGemacs{l+m+mi}{1}\PYGemacs{p}{;}
+            \PYGemacs{p}{\PYGemacsZcb{}}
+        \PYGemacs{p}{\PYGemacsZcb{}} \PYGemacs{k}{else} \PYGemacs{p}{\PYGemacsZob{}}
+            \PYGemacs{k}{if} \PYGemacs{p}{(}\PYGemacs{n+nx}{otherParticle}\PYGemacs{p}{.}\PYGemacs{n+nx}{circle}\PYGemacs{p}{.}\PYGemacs{n+nx}{position}\PYGemacs{p}{.}\PYGemacs{n+nx}{x} \PYGemacs{o}{\PYGemacsZlt{}} \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{circle}\PYGemacs{p}{.}\PYGemacs{n+nx}{position}\PYGemacs{p}{.}\PYGemacs{n+nx}{x}\PYGemacs{p}{)} \PYGemacs{p}{\PYGemacsZob{}}
+                \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{accelX} \PYGemacs{o}{*=} \PYGemacs{o}{\PYGemacsZhy{}}\PYGemacs{l+m+mi}{1}\PYGemacs{p}{;}
+            \PYGemacs{p}{\PYGemacsZcb{}}
+            \PYGemacs{k}{if} \PYGemacs{p}{(}\PYGemacs{n+nx}{otherParticle}\PYGemacs{p}{.}\PYGemacs{n+nx}{circle}\PYGemacs{p}{.}\PYGemacs{n+nx}{position}\PYGemacs{p}{.}\PYGemacs{n+nx}{y} \PYGemacs{o}{\PYGemacsZlt{}} \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{circle}\PYGemacs{p}{.}\PYGemacs{n+nx}{position}\PYGemacs{p}{.}\PYGemacs{n+nx}{y}\PYGemacs{p}{)} \PYGemacs{p}{\PYGemacsZob{}}
+                \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{accely} \PYGemacs{o}{*=} \PYGemacs{o}{\PYGemacsZhy{}}\PYGemacs{l+m+mi}{1}\PYGemacs{p}{;}
+            \PYGemacs{p}{\PYGemacsZcb{}}
+        \PYGemacs{p}{\PYGemacsZcb{}}
+    \PYGemacs{p}{\PYGemacsZcb{}}
+
+    \PYGemacs{n+nx}{advanceTime}\PYGemacs{p}{(}\PYGemacs{n+nx}{milliseconds}\PYGemacs{p}{)} \PYGemacs{p}{\PYGemacsZob{}}
+        \PYGemacs{k+kr}{const} \PYGemacs{n+nx}{seconds} \PYGemacs{o}{=} \PYGemacs{n+nx}{milliseconds} \PYGemacs{o}{/} \PYGemacs{l+m+mi}{1000}\PYGemacs{p}{;}
+        \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{velocityX} \PYGemacs{o}{+=} \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{accelX} \PYGemacs{o}{*} \PYGemacs{n+nx}{seconds}\PYGemacs{p}{;}
+        \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{velocityY} \PYGemacs{o}{+=} \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{accelY} \PYGemacs{o}{*} \PYGemacs{n+nx}{seconds}\PYGemacs{p}{;}
+        \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{circle}\PYGemacs{p}{.}\PYGemacs{n+nx}{translate}\PYGemacs{p}{(}\PYGemacs{k}{new} \PYGemacs{n+nx}{Point}\PYGemacs{p}{(}\PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{velocityX}\PYGemacs{p}{,} \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{velocityY}\PYGemacs{p}{));}
+    \PYGemacs{p}{\PYGemacsZcb{}}
+
+\PYGemacs{p}{\PYGemacsZcb{}}
+\end{Verbatim}

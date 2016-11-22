@@ -1,0 +1,86 @@
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <script
+            src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+              integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/lodash/4.16.3/lodash.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.10.2/paper-full.js" type="text/javascript"></script>
+        <script src="https://unpkg.com/vue/dist/vue.js"></script>
+        <script src="projectv2.js" type="text/javascript"></script>
+        <style type="text/css">
+         body {
+             background: url('grey.png') repeat;
+         }
+
+         canvas {
+             border: 1px solid #ccc;
+             background-color: white;
+         }
+
+         .particle-controls {
+             background-color: #fff;
+         }
+
+         .unselectable {
+             -webkit-user-select: none; /* Chrome/Safari */        
+             -moz-user-select: none; /* Firefox */
+             -ms-user-select: none; /* IE10+ */
+             /* Rules below not implemented in browsers yet */
+             -o-user-select: none;
+             user-select: none;
+             cursor: pointer;
+         }
+        </style>
+    </head>
+    <body>
+        <div class="header" style="margin-top: 50">
+            <h1 class="text-center">Charged particle simulator</h1>
+        </div>
+        <div class="container">
+            <div class="col-md-8" id="canvas-container">
+                <canvas id="canvas" width="970" height="920"></canvas>
+            </div>
+            <div id="app" class="controls">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <select id="charge-system-selector" class="form-control" v-on:change="changeChargeSystem()">
+                            <option value="twoChargeSystem">Two charge system</option>
+                            <option value="threeChargeSystem">Three charge system</option>
+                            <option value="electricDipole">Two Static Charges</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input class="form-control ppm" type="text" type="number" v-bind:value="pixelsPerMeter" v-on:change="updatePixelsPerMeter()" type="number"/>
+                            <span class="input-group-addon">piexels per meter.</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon">1 real second =</span>
+                            <input class="form-control" type="text" v-model="simulation.frameMillis" type="number" v-on:change/>
+                            <span class="input-group-addon">simul seconds.</span>
+                        </div>
+                    </div>
+                    <button id="start-stop-btn" class="btn btn-primary" onClick="simulation.toggleStatus();">Start</button>
+                    <button id="reset-btn" class="btn btn-danger" onClick="simulation.reset();">Reset</button>
+
+                    <div class="particle-controls" v-for="(particle, index) in simulation.particles">
+                        <particle-controls
+                            :particle="particle"
+                            :index="index"/>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

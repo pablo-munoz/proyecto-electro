@@ -1,0 +1,29 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYGemacs{k+kr}{class} \PYGemacs{n+nx}{TwoPointChargeSystem} \PYGemacs{p}{\PYGemacsZob{}}
+    \PYGemacs{n+nx}{constructor}\PYGemacs{p}{()} \PYGemacs{p}{\PYGemacsZob{}}
+        \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{frameMillis} \PYGemacs{o}{=} \PYGemacs{l+m+mi}{1000} \PYGemacs{o}{/} \PYGemacs{l+m+mi}{60}\PYGemacs{p}{;}
+
+        \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{p0} \PYGemacs{o}{=} \PYGemacs{k}{new} \PYGemacs{n+nx}{Particle}\PYGemacs{p}{(\PYGemacsZob{}}
+            \PYGemacs{n+nx}{x}\PYGemacs{o}{:} \PYGemacs{n+nx}{WINDOW\PYGemacsZus{}WIDTH} \PYGemacs{o}{/} \PYGemacs{l+m+mi}{2} \PYGemacs{o}{\PYGemacsZhy{}} \PYGemacs{l+m+mi}{30}\PYGemacs{p}{,}
+        \PYGemacs{p}{\PYGemacsZcb{});}
+        \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{p0}\PYGemacs{p}{.}\PYGemacs{n+nx}{draw}\PYGemacs{p}{();}
+
+        \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{p1} \PYGemacs{o}{=} \PYGemacs{k}{new} \PYGemacs{n+nx}{Particle}\PYGemacs{p}{(\PYGemacsZob{}}
+            \PYGemacs{n+nx}{x}\PYGemacs{o}{:} \PYGemacs{n+nx}{WINDOW\PYGemacsZus{}WIDTH} \PYGemacs{o}{/} \PYGemacs{l+m+mi}{2} \PYGemacs{o}{+} \PYGemacs{l+m+mi}{30}\PYGemacs{p}{,}
+        \PYGemacs{p}{\PYGemacsZcb{});}
+        \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{p1}\PYGemacs{p}{.}\PYGemacs{n+nx}{draw}\PYGemacs{p}{();}
+    \PYGemacs{p}{\PYGemacsZcb{}}
+
+    \PYGemacs{n+nx}{start}\PYGemacs{p}{()} \PYGemacs{p}{\PYGemacsZob{}}
+        \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{refreshIntervalId} \PYGemacs{o}{=} \PYGemacs{n+nx}{setInterval}\PYGemacs{p}{(}\PYGemacs{n+nx}{\PYGemacsZus{}}\PYGemacs{p}{.}\PYGemacs{n+nx}{bind}\PYGemacs{p}{(}\PYGemacs{k+kd}{function}\PYGemacs{p}{()} \PYGemacs{p}{\PYGemacsZob{}}
+            \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{p0}\PYGemacs{p}{.}\PYGemacs{n+nx}{reactToElectricFieldDueTo}\PYGemacs{p}{(}\PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{p1}\PYGemacs{p}{);}
+            \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{p1}\PYGemacs{p}{.}\PYGemacs{n+nx}{reactToElectricFieldDueTo}\PYGemacs{p}{(}\PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{p0}\PYGemacs{p}{);}
+            \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{p0}\PYGemacs{p}{.}\PYGemacs{n+nx}{advanceTime}\PYGemacs{p}{(}\PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{frameMillis}\PYGemacs{p}{);}
+            \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{p1}\PYGemacs{p}{.}\PYGemacs{n+nx}{advanceTime}\PYGemacs{p}{(}\PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{frameMillis}\PYGemacs{p}{);}
+        \PYGemacs{p}{\PYGemacsZcb{},} \PYGemacs{k}{this}\PYGemacs{p}{),} \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{frameMillis}\PYGemacs{p}{);}
+    \PYGemacs{p}{\PYGemacsZcb{}}
+
+    \PYGemacs{n+nx}{stop}\PYGemacs{p}{()} \PYGemacs{p}{\PYGemacsZob{}}
+    \PYGemacs{p}{\PYGemacsZcb{}}
+\PYGemacs{p}{\PYGemacsZcb{}}
+\end{Verbatim}

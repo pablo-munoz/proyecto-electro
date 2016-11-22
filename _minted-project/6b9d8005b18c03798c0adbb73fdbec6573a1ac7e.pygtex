@@ -1,0 +1,40 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYGemacs{k+kr}{class} \PYGemacs{n+nx}{ElectricDipoleSystem} \PYGemacs{k+kr}{extends} \PYGemacs{n+nx}{ChargeSystem} \PYGemacs{p}{\PYGemacsZob{}}
+    \PYGemacs{n+nx}{initialize}\PYGemacs{p}{()} \PYGemacs{p}{\PYGemacsZob{}}
+        \PYGemacs{c+c1}{// p1 and p1 are the \PYGemacsZdq{}fixed\PYGemacsZdq{} ones}
+        \PYGemacs{k+kr}{super}\PYGemacs{p}{.}\PYGemacs{n+nx}{initialize}\PYGemacs{p}{();}
+        \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{p0} \PYGemacs{o}{=} \PYGemacs{k}{new} \PYGemacs{n+nx}{Particle}\PYGemacs{p}{(\PYGemacsZob{}}
+            \PYGemacs{n+nx}{x}\PYGemacs{o}{:} \PYGemacs{l+m+mi}{2}\PYGemacs{p}{,}
+            \PYGemacs{n+nx}{y}\PYGemacs{o}{:} \PYGemacs{l+m+mi}{0}\PYGemacs{p}{,}
+            \PYGemacs{n+nx}{charge}\PYGemacs{o}{:} \PYGemacs{n+nx}{ELECTRON\PYGemacsZus{}CHARGE}\PYGemacs{p}{,}
+            \PYGemacs{n+nx}{mass}\PYGemacs{o}{:} \PYGemacs{n+nx}{ELECTRON\PYGemacsZus{}MASS}\PYGemacs{p}{,}
+            \PYGemacs{n+nx}{name}\PYGemacs{o}{:} \PYGemacs{l+s+s1}{\PYGemacsZsq{}0\PYGemacsZsq{}}
+        \PYGemacs{p}{\PYGemacsZcb{});}
+        \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{particles}\PYGemacs{p}{.}\PYGemacs{n+nx}{push}\PYGemacs{p}{(}\PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{p0}\PYGemacs{p}{);}
+        \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{p0}\PYGemacs{p}{.}\PYGemacs{n+nx}{draw}\PYGemacs{p}{();}
+
+        \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{p1} \PYGemacs{o}{=} \PYGemacs{k}{new} \PYGemacs{n+nx}{Particle}\PYGemacs{p}{(\PYGemacsZob{}}
+            \PYGemacs{n+nx}{y}\PYGemacs{o}{:} \PYGemacs{o}{\PYGemacsZhy{}}\PYGemacs{l+m+mi}{1}\PYGemacs{p}{,}
+            \PYGemacs{n+nx}{charge}\PYGemacs{o}{:} \PYGemacs{n+nx}{ELECTRON\PYGemacsZus{}CHARGE}\PYGemacs{p}{,}
+            \PYGemacs{n+nx}{mass}\PYGemacs{o}{:} \PYGemacs{n+nx}{ELECTRON\PYGemacsZus{}MASS}\PYGemacs{p}{,}
+            \PYGemacs{n+nx}{name}\PYGemacs{o}{:} \PYGemacs{l+s+s1}{\PYGemacsZsq{}1\PYGemacsZsq{}}
+        \PYGemacs{p}{\PYGemacsZcb{});}
+        \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{particles}\PYGemacs{p}{.}\PYGemacs{n+nx}{push}\PYGemacs{p}{(}\PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{p1}\PYGemacs{p}{);}
+        \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{p1}\PYGemacs{p}{.}\PYGemacs{n+nx}{draw}\PYGemacs{p}{();}
+
+        \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{p2} \PYGemacs{o}{=} \PYGemacs{k}{new} \PYGemacs{n+nx}{Particle}\PYGemacs{p}{(\PYGemacsZob{}}
+            \PYGemacs{n+nx}{y}\PYGemacs{o}{:} \PYGemacs{l+m+mi}{1}\PYGemacs{p}{,}
+            \PYGemacs{n+nx}{charge}\PYGemacs{o}{:} \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{p1}\PYGemacs{p}{.}\PYGemacs{n+nx}{charge}\PYGemacs{p}{,}
+            \PYGemacs{n+nx}{mass}\PYGemacs{o}{:} \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{p1}\PYGemacs{p}{.}\PYGemacs{n+nx}{mass}\PYGemacs{p}{,}
+            \PYGemacs{n+nx}{name}\PYGemacs{o}{:} \PYGemacs{l+s+s1}{\PYGemacsZsq{}2\PYGemacsZsq{}}
+        \PYGemacs{p}{\PYGemacsZcb{});}
+        \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{particles}\PYGemacs{p}{.}\PYGemacs{n+nx}{push}\PYGemacs{p}{(}\PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{p2}\PYGemacs{p}{);}
+        \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{p2}\PYGemacs{p}{.}\PYGemacs{n+nx}{draw}\PYGemacs{p}{();}
+    \PYGemacs{p}{\PYGemacsZcb{}}
+
+    \PYGemacs{n+nx}{advance}\PYGemacs{p}{()} \PYGemacs{p}{\PYGemacsZob{}}
+        \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{p0}\PYGemacs{p}{.}\PYGemacs{n+nx}{reactToElectricFieldDueTo}\PYGemacs{p}{(}\PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{particles}\PYGemacs{p}{);}
+        \PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{p0}\PYGemacs{p}{.}\PYGemacs{n+nx}{advanceTime}\PYGemacs{p}{(}\PYGemacs{k}{this}\PYGemacs{p}{.}\PYGemacs{n+nx}{frameMillis}\PYGemacs{p}{);}
+    \PYGemacs{p}{\PYGemacsZcb{}}
+\PYGemacs{p}{\PYGemacsZcb{}}
+\end{Verbatim}
